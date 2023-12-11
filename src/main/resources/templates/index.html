@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>My Thymeleaf Page</title>
+</head>
+<body>
+<form action="/product/createNewProduct" method="post" enctype="multipart/form-data">
+    <!-- Product form fields -->
+    <label for="photoTitle">Product Name:</label>
+    <input type="text" id="photoTitle" name="photoTitle" required>
+
+    <!-- Other product fields... -->
+
+    <!-- File upload field -->
+    <label for="file">Choose File:</label>
+    <input type="file" id="file" name="file" accept=".jpg, .jpeg, .png" required>
+    <label for="file">Choose File:</label>
+
+    <button type="submit">Add Product</button>
+</form>
+</body>
+</html>
