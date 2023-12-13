@@ -5,6 +5,7 @@ import hr.algebra.webshop.entity.Photo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.bson.types.ObjectId;
 
 import java.util.List;
 
@@ -12,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 public class ProductDTO {
-    private int id;
+    private ObjectId id;
     private String name;
     private Category category;
     private String description;

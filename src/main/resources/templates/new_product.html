@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Create new product</title>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+          crossorigin="anonymous">
+</head>
+<body>
+    <div class="container">
+        <h1 class ="text-center"> Product </h1>
+        <form action = "#" th:action="@{/saveProduct}" th:object="${product}" method="POST">
+            <label for="productName">Name</label>
+            <input type="text" id="productName" th:field="*{name}" placeholder="Product name"><br>
+            <label for="productDesc">Description</label>
+            <input type="text" id="productDesc" th:field="*{description}" placeholder="Product description"><br>
+            <label for="productCategory">Description</label>
+            <input type="text" id="productCategory" th:field="*{category}" placeholder="Product category"><br>
+            <label for="productPrice">Category</label>
+            <input type="text" id="productPrice" th:field="*{price}" placeholder="Product price"><br>
+            <label for="productQuantity">Price</label>
+            <input type="text" id="productQuantity" th:field="*{quantity}" placeholder="Product quantity"><br>
+            <label for="productPhotoTitle">Quantity</label>
+            <input type="text" id="productPhotoTitle"  th:field="*{productPhotos.title}" placeholder="Product productPhotos"><br>
+            <input id="input-file" type="file" name="file" accept="image/png, image/jpeg" />
+
+            <button type="submit" class="btn btn-info col-2">Save</button>
+        </form>
+
+    </div>
+</body>
+</html>
