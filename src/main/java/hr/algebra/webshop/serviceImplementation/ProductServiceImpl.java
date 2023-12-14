@@ -23,7 +23,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductDTO updateUser(String id, ProductDTO productDTO) {
+    public ProductDTO updateProduct(String id, ProductDTO productDTO) {
         Product product = productRepository.findById(id).orElseThrow(()
                 -> new ResourceNotFoundException("Product does not exist with a given id"));
 
@@ -48,7 +48,7 @@ public class ProductServiceImpl implements ProductService {
     public ProductDTO getProductById(String id) {
         Optional<Product> product = productRepository.findById(id);
         return product.map(ProductMapper::mapToProductDTO).orElseThrow(()
-                -> new ResourceNotFoundException("Product does not exist with a given email"));
+                -> new ResourceNotFoundException("Product does not exist with a given id"));
     }
 
     @Override

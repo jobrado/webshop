@@ -13,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 public class ProductDTO {
-    private ObjectId id;
+    private String _id;
     private String name;
     private Category category;
     private String description;

@@ -16,8 +16,7 @@ import java.util.List;
 @Document("product")
 public class Product {
     @Id
-    @Field("id")
-    private ObjectId id;
+    private String _id;
     private String name;
     private Category category;
     private String description;

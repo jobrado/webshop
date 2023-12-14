@@ -8,7 +8,7 @@ import hr.algebra.webshop.entity.User;
 public class ProductMapper {
     public static ProductDTO mapToProductDTO (Product product) {
         return new ProductDTO(
-                product.getId(),
+                product.get_id(),
                 product.getName(),
                 product.getCategory(),
                 product.getDescription(),
@@ -19,7 +19,7 @@ public class ProductMapper {
     }
     public static Product mapToProduct(ProductDTO product) {
         return new Product(
-                product.getId(),
+                product.get_id(),
                 product.getName(),
                 product.getCategory(),
                 product.getDescription(),

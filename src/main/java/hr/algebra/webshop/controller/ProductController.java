@@ -23,16 +23,17 @@ import java.util.List;
 public class ProductController {
     public PhotoService photoService;
     public ProductService productService;
-    @GetMapping("/")
-    public String viewHomePage(Model model){
 
-        model.addAttribute("listProducts",productService.getAllProducts());
+    @GetMapping("/")
+    public String viewHomePage(Model model) {
+        model.addAttribute("listProducts", productService.getAllProducts());
+
         return "index";
     }
+
     @GetMapping("/showFormForCreateNewProduct")
-    public String createNewProduct(  Model model)  {
-        ProductDTO product = new ProductDTO();
-        model.addAttribute("product", product);
+    public String createNewProduct(Model model) {
+        model.addAttribute("product", new ProductDTO());
 
         return "new_product";
 
@@ -41,8 +42,27 @@ public class ProductController {
     @PostMapping("/saveProduct")
     public String saveProduct(@ModelAttribute("product") ProductDTO product) throws IOException {
         productService.createProduct(product);
+
         return "redirect:/";
     }
 
+    @GetMapping("/showFormForUpdateProduct/{id}")
+    public String showUpdateForm(@PathVariable String id, Model model) {
+        model.addAttribute("product", productService.getProductById(id));
 
+        return "update_product";
+    }
+
+    @PostMapping("/updateProduct/{id}")
+    public String updateProduct(@PathVariable String id, @ModelAttribute("product") ProductDTO product) throws IOException {
+        productService.updateProduct(id,product);
+
+        return "redirect:/";
+    }
+
+    @GetMapping("/deleteProduct/{id}")
+    public String deleteProduct(@PathVariable String id, @ModelAttribute("product") ProductDTO product){
+        productService.deleteProduct(id);
+        return "redirect:/";
+    }
 }
