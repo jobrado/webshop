@@ -7,6 +7,9 @@ import hr.algebra.webshop.mapper.ProductMapper;
 import hr.algebra.webshop.repository.ProductRepository;
 import hr.algebra.webshop.service.ProductService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
@@ -55,5 +58,17 @@ public class ProductServiceImpl implements ProductService {
     public List<ProductDTO> getAllProducts() {
         List<Product> products = productRepository.findAll();
         return products.stream().map(ProductMapper::mapToProductDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public Page<ProductDTO> findAllByPage(Pageable pageable) {
+
+        return productRepository.findAll(pageable).map(ProductMapper::mapToProductDTO);
+    }
+
+    @Override
+    public Page<ProductDTO> findPaginated(int pageNo, int pageSize) {
+
+        return productRepository.findAll(PageRequest.of(pageNo - 1,pageSize)).map(ProductMapper::mapToProductDTO);
     }
 }

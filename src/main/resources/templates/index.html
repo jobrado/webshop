@@ -13,7 +13,7 @@
     <div class="container mt-5 pt-4" >
         <h1 class="text-center"> Product List</h1>
         <div>
-        <table class="table table-hover table-dark table-responsive-xl" >
+        <table class="table table-hover table-responsive-xl" >
             <thead>
                 <tr>
                     <th scope="col">Id: </th>
@@ -43,8 +43,32 @@
                 </tr>
             </tbody>
         </table>
+            <div th:if="${totalPages > 1}">
+
+                <div class = "d-flex flex-row">
+                <div class="mr-auto p-2 d-flex flex-row">
+                <div class = " p-2">
+                    <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+                        <a  class="btn btn-light btn-sm" th:if="${currentPage != i}" th:href="@{'/page/' + ${i}}">[[${i}]]</a>
+                        <span class = "btn btn-light btn-sm  btn-lg active" th:unless="${currentPage != i}">[[${i}]]</span> &nbsp;
+                    </span>
+                </div>
+                <div class = "  p-2">
+                    <a  class="btn btn-light btn-sm" th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${currentPage + 1}}">Next</a>
+                    <span class = "btn btn-light btn-sm  btn-lg disabled" th:unless="${currentPage <totalPages}">Next</span>
+                </div>
+                <div class = " p-2">
+                    <a class="btn btn-light btn-sm" th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${totalPages}}">Last</a>
+                    <span class = "btn btn-light btn-sm  disabled " th:unless="${currentPage <totalPages}">Last</span>
+                </div>
+                    </div>
+                    <div class=" p-2 float-right"> <a th:href = "@{/showFormForCreateNewProduct}" class="btn btn-info" > Add Product </a></div>
+
+
+                </div>
+            </div>
         </div>
-        <a th:href = "@{/showFormForCreateNewProduct}" class="btn btn-info float-right" > Add Product </a>
+        </div>
 
     </div>
 </body>

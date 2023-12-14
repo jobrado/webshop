@@ -1,21 +1,14 @@
 package hr.algebra.webshop.controller;
 
 import hr.algebra.webshop.dto.ProductDTO;
-import hr.algebra.webshop.entity.Category;
-import hr.algebra.webshop.entity.Photo;
-import hr.algebra.webshop.entity.Product;
 import hr.algebra.webshop.service.PhotoService;
 import hr.algebra.webshop.service.ProductService;
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
@@ -26,9 +19,7 @@ public class ProductController {
 
     @GetMapping("/")
     public String viewHomePage(Model model) {
-        model.addAttribute("listProducts", productService.getAllProducts());
-
-        return "index";
+       return findPage(1, model);
     }
 
     @GetMapping("/showFormForCreateNewProduct")
@@ -64,5 +55,16 @@ public class ProductController {
     public String deleteProduct(@PathVariable String id, @ModelAttribute("product") ProductDTO product){
         productService.deleteProduct(id);
         return "redirect:/";
+    }
+    @GetMapping("/page/{pageNo}")
+    public String findPage(@PathVariable (value = "pageNo") int pageNo, Model model){
+        int pageSize = 1;
+        Page<ProductDTO> page = productService.findPaginated(pageNo, pageSize);
+        List<ProductDTO> productDTOList = page.getContent();
+        model.addAttribute("currentPage", pageNo);
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("totalItems", page.getTotalElements());
+        model.addAttribute("listProducts", productDTOList);
+        return "index";
     }
 }
