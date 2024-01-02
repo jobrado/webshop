@@ -1,5 +1,9 @@
 package hr.algebra.webshop.entity;
 
+import lombok.Data;
+import lombok.Getter;
+
+@Getter
 public enum Category {
     HANDBAG("Handbag"),
     BACKPACK("Backpack"),
@@ -10,8 +14,5 @@ public enum Category {
         this.displayName = displayName;
     }
 
-    public String getDisplayName() {
-        return displayName;
-    }
 
 }

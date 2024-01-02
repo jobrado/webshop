@@ -7,6 +7,9 @@ import hr.algebra.webshop.mapper.UserMapper;
 import hr.algebra.webshop.repository.UserRepository;
 import hr.algebra.webshop.service.UserService;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
@@ -15,13 +18,16 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     public UserRepository userRepository;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
     private static final Logger logger = Logger.getLogger(UserServiceImpl.class.getName());
 
     @Override
     public UserDTO createUser(UserDTO userDTO) {
+          userDTO.setPassword(bCryptPasswordEncoder.encode(userDTO.getPassword()));
           User savedUser = this.userRepository.save(UserMapper.mapToUser(userDTO));
           return UserMapper.mapToUserDTO(savedUser);
       }
@@ -35,7 +41,7 @@ public class UserServiceImpl implements UserService {
         user.setFirstName(userDTO.getFirstName());
         user.setLastName(userDTO.getLastName());
         user.setEmail(userDTO.getEmail());
-        user.setPassword(userDTO.getPassword());
+        user.setPassword(bCryptPasswordEncoder.encode(userDTO.getPassword()));
 
         return UserMapper.mapToUserDTO(userRepository.save(user));
     }

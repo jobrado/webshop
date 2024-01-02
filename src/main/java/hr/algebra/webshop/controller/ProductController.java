@@ -1,6 +1,7 @@
 package hr.algebra.webshop.controller;
 
 import hr.algebra.webshop.dto.ProductDTO;
+import hr.algebra.webshop.entity.Category;
 import hr.algebra.webshop.service.PhotoService;
 import hr.algebra.webshop.service.ProductService;
 import lombok.AllArgsConstructor;
@@ -13,19 +14,21 @@ import java.util.List;
 
 @AllArgsConstructor
 @Controller
+@RequestMapping
 public class ProductController {
     public PhotoService photoService;
     public ProductService productService;
 
     @GetMapping("/")
     public String viewHomePage(Model model) {
-       return findPage(1, model);
+
+        return findPage(1, model, "price", "asc");
     }
 
     @GetMapping("/showFormForCreateNewProduct")
     public String createNewProduct(Model model) {
         model.addAttribute("product", new ProductDTO());
-
+        model.addAttribute("category", Category.values());
         return "new_product";
 
     }
@@ -57,14 +60,20 @@ public class ProductController {
         return "redirect:/";
     }
     @GetMapping("/page/{pageNo}")
-    public String findPage(@PathVariable (value = "pageNo") int pageNo, Model model){
-        int pageSize = 1;
-        Page<ProductDTO> page = productService.findPaginated(pageNo, pageSize);
+    public String findPage(@PathVariable (value = "pageNo") int pageNo,
+                           Model model,
+                           @RequestParam("sortField") String sortField,
+                           @RequestParam ("sortDirection") String sortDirection){
+        int pageSize = 5;
+        Page<ProductDTO> page = productService.findPaginated(pageNo, pageSize, sortField, sortDirection);
         List<ProductDTO> productDTOList = page.getContent();
         model.addAttribute("currentPage", pageNo);
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("totalItems", page.getTotalElements());
         model.addAttribute("listProducts", productDTOList);
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDirection", sortDirection);
+        model.addAttribute("reverseSortDirection", sortDirection.equals("asc") ? "desc" : "asc");
         return "index";
     }
 }

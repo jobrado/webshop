@@ -7,6 +7,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Set;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -20,5 +22,5 @@ public class User {
     private String email;
     private String password;
 
-    private UserRole role;
+    private Set<UserRole> role;
 }

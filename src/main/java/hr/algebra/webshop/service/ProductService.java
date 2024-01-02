@@ -12,7 +12,7 @@ public interface ProductService {
     void deleteProduct(String id);
     ProductDTO getProductById(String id);
     List<ProductDTO> getAllProducts();
-    Page<ProductDTO> findAllByPage(Pageable pageable);
-    Page<ProductDTO> findPaginated(int pageNo, int pageSize);
+    Page<ProductDTO> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection);
+
 
 }

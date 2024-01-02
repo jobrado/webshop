@@ -13,7 +13,7 @@
 <div class="container p-4 mt-5 border shadow-sm rounded" style="width: 80%">
     <h1 class="text-center"> Create product </h1>
 
-    <form action="#" th:action="@{/saveProduct}" th:object="${product}" method="POST">
+    <form action="#" th:action="@{/admin/saveProduct}" th:object="${product}" method="POST">
         <div class="form-group mt-5">
             <label for="productName" class="ml-2">Name</label>
             <input type="text" id="productName" class="form-control" th:field="*{name}" placeholder="Product name"><br>
@@ -25,8 +25,8 @@
         </div>
         <div class="form-group">
             <label for="productCategory" class="ml-2">Category</label>
-            <select id="productCategory" class="form-control">
-                <option th:each="category : ${T(hr.algebra.webshop.entity.Category).values()}"
+            <select id="productCategory" class="form-control" th:field="*{category}">
+                <option  th:each="category : ${T(hr.algebra.webshop.entity.Category).values()}"
                         th:value="${category}"
                         th:text="${category.displayName}">
                 </option>
