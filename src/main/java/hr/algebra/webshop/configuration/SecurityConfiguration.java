@@ -9,7 +9,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -18,17 +17,20 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
 
-                .authorizeHttpRequests(authorizeConfig -> {
-                    authorizeConfig
-                            .requestMatchers(HttpMethod.GET, "/user/showLogin").permitAll()
-                                   .requestMatchers(HttpMethod.GET, "/user/showFormRegisterUser").permitAll()
-                            .requestMatchers(HttpMethod.GET, "/").authenticated()
-                            ;
+                .authorizeHttpRequests(authorizeConfig -> authorizeConfig
+                        .requestMatchers(HttpMethod.GET, "/").permitAll()
 
-                })
+                        .requestMatchers(HttpMethod.GET, "/user/showFormRegisterUser").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/admin/saveProduct").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/page/{pageNo}").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/admin/*").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/user/registerNewUser").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/admin/listOfUsers").permitAll()
+
+                        .requestMatchers(HttpMethod.GET, "/").authenticated())
 
                 .formLogin(form -> form
-                        .loginPage("/user/showLogin"))
+                        .loginPage("/user/showLogin").permitAll())
                 .build();
     }
     @Bean

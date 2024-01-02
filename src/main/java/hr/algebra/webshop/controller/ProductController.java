@@ -4,6 +4,7 @@ import hr.algebra.webshop.dto.ProductDTO;
 import hr.algebra.webshop.entity.Category;
 import hr.algebra.webshop.service.PhotoService;
 import hr.algebra.webshop.service.ProductService;
+import hr.algebra.webshop.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -14,9 +15,10 @@ import java.util.List;
 
 @AllArgsConstructor
 @Controller
-@RequestMapping
+@RequestMapping("/admin")
 public class ProductController {
     public PhotoService photoService;
+    public UserService userService;
     public ProductService productService;
 
     @GetMapping("/")
@@ -59,6 +61,12 @@ public class ProductController {
         productService.deleteProduct(id);
         return "redirect:/";
     }
+    @GetMapping("/listOfUsers")
+    public String viewListOfUsers(Model model) {
+        model.addAttribute("users", userService.getAllUsers());
+        return "listOfUsers";
+    }
+
     @GetMapping("/page/{pageNo}")
     public String findPage(@PathVariable (value = "pageNo") int pageNo,
                            Model model,
@@ -76,4 +84,5 @@ public class ProductController {
         model.addAttribute("reverseSortDirection", sortDirection.equals("asc") ? "desc" : "asc");
         return "index";
     }
+
 }
