@@ -3,7 +3,7 @@ package hr.algebra.webshop.serviceImplementation;
 
 import hr.algebra.webshop.entity.UserRole;
 import hr.algebra.webshop.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,7 +14,7 @@ import hr.algebra.webshop.entity.User;
 import java.util.*;
 
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class UserDetailsServiceImpl implements org.springframework.security.core.userdetails.UserDetailsService {
     private UserRepository userRepository;
 
@@ -31,9 +31,7 @@ public class UserDetailsServiceImpl implements org.springframework.security.core
 
     private List<GrantedAuthority> getUserAuthority (Set<UserRole> userRoleSet){
         Set<GrantedAuthority> roles = new HashSet<>();
-        userRoleSet.forEach((role) -> {
-            roles.add(new SimpleGrantedAuthority((role.name())));
-        });
+        userRoleSet.forEach((role) -> roles.add(new SimpleGrantedAuthority((role.name()))));
         return new ArrayList<>(roles);
     }
     private UserDetails buildUserForAuthentication(User user, List<GrantedAuthority> authorities){
