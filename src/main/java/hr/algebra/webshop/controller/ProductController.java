@@ -1,7 +1,8 @@
 package hr.algebra.webshop.controller;
 
+import hr.algebra.webshop.dto.CategoryDTO;
 import hr.algebra.webshop.dto.ProductDTO;
-import hr.algebra.webshop.entity.Category;
+import hr.algebra.webshop.service.CategoryService;
 import hr.algebra.webshop.service.PhotoService;
 import hr.algebra.webshop.service.ProductService;
 import hr.algebra.webshop.service.UserService;
@@ -20,6 +21,7 @@ public class ProductController {
     public PhotoService photoService;
     public UserService userService;
     public ProductService productService;
+    public CategoryService categoryService;
 
     @GetMapping("/")
     public String viewHomePage(Model model) {
@@ -29,8 +31,9 @@ public class ProductController {
 
     @GetMapping("/showFormForCreateNewProduct")
     public String createNewProduct(Model model) {
+        List<CategoryDTO> categoryDTOS = categoryService.getAllCategories();
         model.addAttribute("product", new ProductDTO());
-        model.addAttribute("category", Category.values());
+        model.addAttribute("category", categoryDTOS);
         return "new_product";
 
     }
@@ -44,13 +47,16 @@ public class ProductController {
 
     @GetMapping("/showFormForUpdateProduct/{id}")
     public String showUpdateForm(@PathVariable String id, Model model) {
+        List<CategoryDTO> categoryDTOS = categoryService.getAllCategories();
+
         model.addAttribute("product", productService.getProductById(id));
+        model.addAttribute("category", categoryDTOS);
 
         return "update_product";
     }
 
     @PostMapping("/updateProduct/{id}")
-    public String updateProduct(@PathVariable String id, @ModelAttribute("product") ProductDTO product) throws IOException {
+    public String updateProduct(@PathVariable String id, @ModelAttribute("product") ProductDTO product, @ModelAttribute("category") List<CategoryDTO> category) throws IOException {
         productService.updateProduct(id,product);
 
         return "redirect:/";

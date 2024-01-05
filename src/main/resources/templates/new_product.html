@@ -23,14 +23,12 @@
             <input type="text" id="productDesc" class="form-control" th:field="*{description}"
                    placeholder="Product description"><br>
         </div>
-        <div class="form-group">
+        <div class="form-group" th:object="${category}">
             <label for="productCategory" class="ml-2">Category</label>
-            <select id="productCategory" class="form-control" th:field="*{category}">
-                <option  th:each="category : ${T(hr.algebra.webshop.entity.Category).values()}"
-                        th:value="${category}"
-                        th:text="${category.displayName}">
-                </option>
-            </select><br>
+            <select class="form-control"  id="productCategory">
+                <option value="0">select category</option>
+                <option th:each="category : ${category}" th:value="${category._id}" th:text="${category.name}"></option>
+            </select>
         </div>
         <div class="form-group">
             <label for="productPrice" class="ml-2">Price</label>

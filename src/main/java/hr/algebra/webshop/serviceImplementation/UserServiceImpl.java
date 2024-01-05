@@ -27,7 +27,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO createUser(UserDTO userDTO) {
           userDTO.setPassword(bCryptPasswordEncoder.encode(userDTO.getPassword()));
+         if(userDTO.getRole()==null){
           userDTO.setRole(Collections.singleton(UserRole.USER));
+         }
           User savedUser = this.userRepository.save(UserMapper.mapToUser(userDTO));
           return UserMapper.mapToUserDTO(savedUser);
       }

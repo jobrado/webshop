@@ -1,18 +1,21 @@
 package hr.algebra.webshop.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Getter
-public enum Category {
-    HANDBAG("Handbag"),
-    BACKPACK("Backpack"),
-    TOTE("Tote");
-    private final String displayName;
+@Document("category")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Category {
+    @Id
+    private String _id;
+    private String Name;
+    private String Description;
 
-    Category(String displayName) {
-        this.displayName = displayName;
-    }
 
 
 }
