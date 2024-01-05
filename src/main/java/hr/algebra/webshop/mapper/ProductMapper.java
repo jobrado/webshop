@@ -1,16 +1,17 @@
 package hr.algebra.webshop.mapper;
 
+import hr.algebra.webshop.dto.CategoryDTO;
 import hr.algebra.webshop.dto.ProductDTO;
-import hr.algebra.webshop.dto.UserDTO;
+import hr.algebra.webshop.entity.Category;
 import hr.algebra.webshop.entity.Product;
-import hr.algebra.webshop.entity.User;
 
 public class ProductMapper {
     public static ProductDTO mapToProductDTO (Product product) {
+        CategoryDTO categoryDTO = CategoryMapper.mapToCategoryDTO(product.getCategory());
         return new ProductDTO(
                 product.get_id(),
                 product.getName(),
-                product.getCategory(),
+                categoryDTO,
                 product.getDescription(),
                 product.getProductPhotos(),
                 product.getPrice(),
@@ -18,10 +19,11 @@ public class ProductMapper {
         );
     }
     public static Product mapToProduct(ProductDTO product) {
+        Category category = CategoryMapper.mapToCategory(product.getCategory());
         return new Product(
                 product.get_id(),
                 product.getName(),
-                product.getCategory(),
+                category,
                 product.getDescription(),
                 product.getProductPhotos(),
                 product.getPrice(),

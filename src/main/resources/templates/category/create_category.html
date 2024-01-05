@@ -1,10 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Create new product</title>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+          crossorigin="anonymous">
 </head>
 <body>
+<div class="container p-4 mt-5 border shadow-sm rounded" style="width: 80%">
+    <h1 class="text-center"> Create category </h1>
 
+    <form action="#" th:action="@{/admin/category/saveCategory}" th:object="${category}" method="POST">
+        <div class="form-group mt-5">
+            <label for="categoryName" class="ml-2">Name</label>
+            <input type="text" id="categoryName" class="form-control" th:field="*{name}" placeholder="Category name"><br>
+        </div>
+        <div class="form-group ">
+            <label for="categoryDesc" class="ml-2">Description</label>
+            <input type="text" id="categoryDesc" class="form-control" th:field="*{description}"
+                   placeholder="Category description"><br>
+        </div>
+
+        <div class="form-group text-center mt-4">
+            <button type="submit" class="btn btn-info col-2 mr-1 shadow-sm rounded">Save</button>
+            <a th:href="@{admin/category/}" class="btn btn-danger col-2 ml-1 shadow-sm rounded">Cancel</a>
+        </div>
+    </form>
+
+</div>
 </body>
 </html>

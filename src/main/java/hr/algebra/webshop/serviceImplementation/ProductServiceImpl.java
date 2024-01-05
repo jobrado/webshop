@@ -1,15 +1,17 @@
 package hr.algebra.webshop.serviceImplementation;
 
 import hr.algebra.webshop.Exception.ResourceNotFoundException;
+import hr.algebra.webshop.dto.CategoryDTO;
 import hr.algebra.webshop.dto.ProductDTO;
 import hr.algebra.webshop.entity.Product;
+import hr.algebra.webshop.mapper.CategoryMapper;
 import hr.algebra.webshop.mapper.ProductMapper;
 import hr.algebra.webshop.repository.ProductRepository;
+import hr.algebra.webshop.service.CategoryService;
 import hr.algebra.webshop.service.ProductService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -20,8 +22,11 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class ProductServiceImpl implements ProductService {
     public ProductRepository productRepository;
+    public CategoryService categoryService;
     @Override
     public ProductDTO createProduct(ProductDTO productDTO) {
+        CategoryDTO category = categoryService.getCategoryById(productDTO.getCategory().get_id());
+        productDTO.setCategory(category);
         Product savedProduct = this.productRepository.save(ProductMapper.mapToProduct(productDTO));
 
         return ProductMapper.mapToProductDTO(savedProduct);
@@ -33,7 +38,7 @@ public class ProductServiceImpl implements ProductService {
                 -> new ResourceNotFoundException("Product does not exist with a given id"));
 
         product.setName(productDTO.getName());
-        product.setCategory(productDTO.getCategory());
+        product.setCategory(CategoryMapper.mapToCategory(productDTO.getCategory()));
         product.setDescription(productDTO.getDescription());
         product.setProductPhotos(productDTO.getProductPhotos());
         product.setPrice(productDTO.getPrice());

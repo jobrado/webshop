@@ -33,16 +33,17 @@ public class ProductController {
     public String createNewProduct(Model model) {
         List<CategoryDTO> categoryDTOS = categoryService.getAllCategories();
         model.addAttribute("product", new ProductDTO());
-        model.addAttribute("category", categoryDTOS);
+        model.addAttribute("categories", categoryDTOS);
         return "new_product";
 
     }
 
     @PostMapping("/saveProduct")
-    public String saveProduct(@ModelAttribute("product") ProductDTO product) throws IOException {
+    public String saveProduct(@ModelAttribute("product") ProductDTO product)  {
+        System.out.println();
         productService.createProduct(product);
 
-        return "redirect:/";
+        return "redirect:/admin/";
     }
 
     @GetMapping("/showFormForUpdateProduct/{id}")
@@ -50,22 +51,22 @@ public class ProductController {
         List<CategoryDTO> categoryDTOS = categoryService.getAllCategories();
 
         model.addAttribute("product", productService.getProductById(id));
-        model.addAttribute("category", categoryDTOS);
+        model.addAttribute("categories", categoryDTOS);
 
         return "update_product";
     }
 
     @PostMapping("/updateProduct/{id}")
-    public String updateProduct(@PathVariable String id, @ModelAttribute("product") ProductDTO product, @ModelAttribute("category") List<CategoryDTO> category) throws IOException {
+    public String updateProduct(@PathVariable String id, @ModelAttribute("product") ProductDTO product, @ModelAttribute("category") List<CategoryDTO> category) {
         productService.updateProduct(id,product);
 
-        return "redirect:/";
+        return "redirect:/admin/";
     }
 
     @GetMapping("/deleteProduct/{id}")
     public String deleteProduct(@PathVariable String id, @ModelAttribute("product") ProductDTO product){
         productService.deleteProduct(id);
-        return "redirect:/";
+        return "redirect:/admin/";
     }
     @GetMapping("/listOfUsers")
     public String viewListOfUsers(Model model) {
