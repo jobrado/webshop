@@ -30,6 +30,8 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.POST, "/user/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/admin/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/admin/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/customer/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/customer/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/admin/listOfUsers").authenticated())
                 .formLogin(form -> form
                         .loginPage("/user/showLogin").permitAll())

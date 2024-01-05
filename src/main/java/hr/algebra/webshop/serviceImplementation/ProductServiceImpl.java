@@ -5,6 +5,7 @@ import hr.algebra.webshop.dto.CategoryDTO;
 import hr.algebra.webshop.dto.ProductDTO;
 import hr.algebra.webshop.entity.Product;
 import hr.algebra.webshop.mapper.CategoryMapper;
+import hr.algebra.webshop.mapper.PhotoMapper;
 import hr.algebra.webshop.mapper.ProductMapper;
 import hr.algebra.webshop.repository.ProductRepository;
 import hr.algebra.webshop.service.CategoryService;
@@ -40,7 +41,7 @@ public class ProductServiceImpl implements ProductService {
         product.setName(productDTO.getName());
         product.setCategory(CategoryMapper.mapToCategory(productDTO.getCategory()));
         product.setDescription(productDTO.getDescription());
-        product.setProductPhotos(productDTO.getProductPhotos());
+        product.setProductPhotos(PhotoMapper.mapToPhoto(productDTO.getProductPhotos()));
         product.setPrice(productDTO.getPrice());
         product.setQuantity(productDTO.getQuantity());
 
