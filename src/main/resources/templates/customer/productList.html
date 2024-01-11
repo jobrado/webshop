@@ -4,35 +4,57 @@
 <head>
     <title>Virgo V</title>
     <meta charset="ISO-8859-1">
-    <link rel="stylesheet"
+    <link crossorigin="anonymous"
           href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-          crossorigin="anonymous">
+          rel="stylesheet">
 </head>
 <header th:insert="~{fragments/general.html :: header}"></header>
 
 <body>
-<div class="container mt-5">
+
     <div class="row">
+        <div class="col-3" style="background-color: darkslategray;">
+            <div class="category-list" style="margin-top: 7rem; margin-left: 2rem; margin-right: 2rem">
+                <h5 class="ml-3">Categories:</h5>
+                <ul class="mt-4" style="  list-style: none;">
+                    <li th:each="category : ${categories}">
+                        <a class="list-group-item list-group-item-action" style="background-color: darkslategrey; border:none"
+                           th:href="@{/customer/allProducts/{categoryId}(categoryId=${category._id})}" th:text="${category.name}">
 
-<div th:each="product : ${products}" class="col-md-3 mb-4 mt-5" style=" width: 5rem; margin-bottom: 5rem; margin-left: 3rem;">
-    <div class="card">
-    <img class="card-img-top" th:src="${product.productPhotos.getImage()}" alt="product Image">
-    <h5 class="card-title text-center" th:text="${product.name}"></h5>
-    <ul class="list-group list-group-flush">
-        <li class="list-group-item" >
+                        </a>
+                    </li>
 
-            <p class="card-text font-weight-bold text-center" style="color: darkgreen; font-size: 25px" th:text="${product.price} + '$'"></p></li>
-        <li class="list-group-item">
-            <p class="font-weight-bold text-center" style="font-size: 14px" th:text="${product.description}"></p></li>
+                </ul>
+            </div>
+            </div>
+            <div class="col-8 container mt-5">
+                <div class="row">
 
-    </ul>
+                    <div class="col-md-3 mb-4 mt-5" style=" width: 5rem; margin-bottom: 5rem; margin-left: 3rem;"
+                         th:each="product : ${products}">
+                        <div class="card">
+                            <img alt="product Image" class="card-img-top" th:src="${product.productPhotos.getImage()}">
+                            <h5 class="card-title text-center" th:text="${product.name}"></h5>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    <p class="card-text font-weight-bold text-center"
+                                       style="color: darkgreen; font-size: 25px" th:text="${product.price} + '$'"></p>
+                                </li>
+                                <li class="list-group-item">
+                                    <p class="font-weight-bold text-center" style="font-size: 14px"
+                                       th:text="${product.description}"></p></li>
 
-    <a th:href="@{/customer/showProductDetails/{id}(id=${product._id})}" class="btn btn-primary">Details</a>
+                            </ul>
+
+                            <a class="btn btn-primary"
+                               th:href="@{/customer/showProductDetails/{id}(id=${product._id})}">Details</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
     </div>
-</div>
-    </div>
-</div>
 </body>
 <footer th:replace="~{fragments/general.html :: footer}"></footer>
 

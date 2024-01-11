@@ -6,7 +6,7 @@ import hr.algebra.webshop.entity.Category;
 public class CategoryMapper {
     public static CategoryDTO mapToCategoryDTO (Category category) {
         return new CategoryDTO(
-                category.get_id(),
+                category.getId(),
                 category.getName(),
                 category.getDescription()
         );

@@ -2,7 +2,6 @@ package hr.algebra.webshop.service;
 
 import hr.algebra.webshop.dto.ProductDTO;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -14,5 +13,6 @@ public interface ProductService {
     List<ProductDTO> getAllProducts();
     Page<ProductDTO> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection);
 
+     List<ProductDTO> getProductsByCategory_id(String id);
 
 }

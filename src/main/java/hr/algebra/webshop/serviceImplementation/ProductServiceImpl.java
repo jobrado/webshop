@@ -76,4 +76,12 @@ public class ProductServiceImpl implements ProductService {
 
         return productRepository.findAll(PageRequest.of(pageNo - 1,pageSize, sort)).map(ProductMapper::mapToProductDTO);
     }
+
+    @Override
+    public List<ProductDTO> getProductsByCategory_id(String id) {
+        return productRepository.findAll().stream()
+                .filter(product -> id.equals(product.getCategory().getId()))
+                .map(ProductMapper::mapToProductDTO)
+                .collect(Collectors.toList());
+    }
 }

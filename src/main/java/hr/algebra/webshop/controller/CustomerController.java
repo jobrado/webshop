@@ -23,6 +23,7 @@ public class CustomerController {
     public String showProducts(Model model) {
         List<ProductDTO> productList = productService.getAllProducts();
         model.addAttribute("products", productList);
+        model.addAttribute("categories", categoryService.getAllCategories());
 
         return "customer/productList";
     }
@@ -32,6 +33,13 @@ public class CustomerController {
 
         return "customer/productDetail";
     }
+    @GetMapping("/allProducts/{id}")
+    public String showProductsByCategoryId(@PathVariable("id") String id, Model model) {
+        List<ProductDTO> productList = productService.getProductsByCategory_id(id);
+        model.addAttribute("products", productList);
+        model.addAttribute("categories", categoryService.getAllCategories());
 
+        return "customer/productList";
+    }
 
 }

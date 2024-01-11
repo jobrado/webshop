@@ -12,7 +12,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @AllArgsConstructor
 public class Category {
     @Id
-    private String _id;
+    private String id;
     private String Name;
     private String Description;
 
