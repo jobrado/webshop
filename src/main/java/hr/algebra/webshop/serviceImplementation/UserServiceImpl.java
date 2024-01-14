@@ -3,7 +3,7 @@ package hr.algebra.webshop.serviceImplementation;
 import hr.algebra.webshop.Exception.ResourceNotFoundException;
 import hr.algebra.webshop.dto.UserDTO;
 import hr.algebra.webshop.entity.User;
-import hr.algebra.webshop.entity.UserRole;
+import hr.algebra.webshop.enums.UserRole;
 import hr.algebra.webshop.mapper.UserMapper;
 import hr.algebra.webshop.repository.UserRepository;
 import hr.algebra.webshop.service.UserService;
@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,7 +21,6 @@ public class UserServiceImpl implements UserService {
 
     public UserRepository userRepository;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
-    private static final Logger logger = Logger.getLogger(UserServiceImpl.class.getName());
 
     @Override
     public UserDTO createUser(UserDTO userDTO) {

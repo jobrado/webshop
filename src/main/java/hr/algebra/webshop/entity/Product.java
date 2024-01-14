@@ -23,4 +23,5 @@ public class Product {
     private Photo productPhotos;
     private double price;
     private int quantity;
+    private boolean isAvailable;
 }

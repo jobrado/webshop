@@ -1,5 +1,6 @@
 package hr.algebra.webshop.entity;
 
+import hr.algebra.webshop.enums.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

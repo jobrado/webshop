@@ -18,7 +18,8 @@ public class ProductMapper {
                 product.getDescription(),
                 photosDTO,
                 product.getPrice(),
-                product.getQuantity()
+                product.getQuantity(),
+                product.isAvailable()
         );
     }
     public static Product mapToProduct(ProductDTO product) {
@@ -31,7 +32,8 @@ public class ProductMapper {
                 product.getDescription(),
                 photos,
                 product.getPrice(),
-                product.getQuantity()
+                product.getQuantity(),
+                product.isAvailable()
         );
     }
 }

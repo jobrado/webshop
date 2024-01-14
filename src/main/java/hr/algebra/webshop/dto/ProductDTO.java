@@ -16,4 +16,6 @@ public class ProductDTO {
     private PhotoDTO productPhotos;
     private double price;
     private int quantity;
+    private boolean isAvailable;
+
 }

@@ -1,7 +1,7 @@
 package hr.algebra.webshop.serviceImplementation;
 
 
-import hr.algebra.webshop.entity.UserRole;
+import hr.algebra.webshop.enums.UserRole;
 import hr.algebra.webshop.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;

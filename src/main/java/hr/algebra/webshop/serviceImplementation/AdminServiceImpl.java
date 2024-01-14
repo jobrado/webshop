@@ -2,7 +2,7 @@ package hr.algebra.webshop.serviceImplementation;
 
 import hr.algebra.webshop.Exception.ResourceNotFoundException;
 import hr.algebra.webshop.dto.UserDTO;
-import hr.algebra.webshop.entity.UserRole;
+import hr.algebra.webshop.enums.UserRole;
 import hr.algebra.webshop.service.UserService;
 import jakarta.annotation.PostConstruct;
 import lombok.AllArgsConstructor;
