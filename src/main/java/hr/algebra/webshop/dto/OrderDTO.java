@@ -1,6 +1,6 @@
 package hr.algebra.webshop.dto;
 
-import hr.algebra.webshop.entity.CartItem;
+import hr.algebra.webshop.entity.Cart;
 import hr.algebra.webshop.enums.Delivery;
 import hr.algebra.webshop.enums.PaymentMethod;
 import lombok.AllArgsConstructor;
@@ -11,7 +11,7 @@ import java.time.format.DateTimeFormatter;
 @AllArgsConstructor
 public class OrderDTO {
     private String id;
-    private CartItem cart;
+    private Cart cart;
     private Delivery delivery;
     private PaymentMethod paymentMethod;
     private DateTimeFormatter date;

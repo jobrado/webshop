@@ -10,7 +10,7 @@ import java.util.Map;
 @Document
 @AllArgsConstructor
 @Data
-public class CartItem {
+public class Cart {
     @Id
     private String id;
     @DBRef

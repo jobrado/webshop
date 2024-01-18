@@ -16,7 +16,6 @@
     <div class="row h-100 justify-content-center align-items-center mt-5">
 
         <div class="form-horizontal col-lg-3 shadow p-3bg-white rounded  d-flex flex-column justify-content-center align-items-center">
-            <img src="/images/Capture.jpg" class="mt-4" width="100" height="150" alt=""/>
             <div class="mt-3">
                 <div class="m-3" th:if="${param.success}">
                     <div class="alert alert-info"> Registration successful, please login"</div>
@@ -28,7 +27,7 @@
 
             <h4 class="text-center mt-2">Welcome back!</h4>
             <hr/>
-            <form th:action="@{/user/loginUser}" method="POST" th:object="${user}" autocomplete="on" id="logInForm">
+            <form th:action="@{/login}" method="post" th:object="${user}" autocomplete="on" id="logInForm">
                 <div class="form-group">
                     <div class="container">
                         <div class="row">
@@ -47,18 +46,16 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group  text-center">
-                        <div class="mt-1">
+                        <div class="form-group  text-center mt-1">
                             <input type="submit" value="Sign in" class="btn btn-primary btn-lg"
                                    style="background-color: #023e8a"/>
                         </div>
-                    </div>
-
+               </div>
+            </form>
                     <div class="mt-3 text-center">
                         Dont wanna login? <a th:href="@{/}" style="color: #023e8a;text-decoration: none">Go</a>
                     </div>
-                </div>
-            </form>
+
         </div>
     </div>
 </div>

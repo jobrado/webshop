@@ -1,11 +1,11 @@
 package hr.algebra.webshop.mapper;
 
-import hr.algebra.webshop.dto.CartItemDTO;
-import hr.algebra.webshop.entity.CartItem;
+import hr.algebra.webshop.dto.CartDTO;
+import hr.algebra.webshop.entity.Cart;
 
-public class CartItemMapper {
-    public static CartItemDTO mapToCartItemDTO (CartItem cartItem) {
-        return new CartItemDTO(
+public class CartMapper {
+    public static CartDTO mapToCartItemDTO (Cart cartItem) {
+        return new CartDTO(
                 cartItem.getId(),
                 cartItem.getProduct(),
                 cartItem.getUser(),
@@ -13,8 +13,8 @@ public class CartItemMapper {
 
         );
     }
-    public static CartItem mapToCartItem(CartItemDTO cartItemDTO) {
-        return new CartItem(
+    public static Cart mapToCartItem(CartDTO cartItemDTO) {
+        return new Cart(
                 cartItemDTO.getId(),
                 cartItemDTO.getProduct(),
                 cartItemDTO.getUser(),

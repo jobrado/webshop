@@ -7,7 +7,7 @@ import lombok.Data;
 import java.util.Map;
 @AllArgsConstructor
 @Data
-public class CartItemDTO {
+public class CartDTO {
     private String id;
     private Map<Product,Integer> product;
     private User user;

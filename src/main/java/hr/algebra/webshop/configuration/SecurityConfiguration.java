@@ -10,6 +10,7 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -22,19 +23,27 @@ public class SecurityConfiguration {
     private UserRepository userRepository;
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http
 
+
+        return http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizeConfig -> authorizeConfig
-                        .requestMatchers(HttpMethod.GET, "/").permitAll()
                         .requestMatchers(HttpMethod.GET, "/user/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/user/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/admin/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/admin/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/customer/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/customer/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/admin/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/admin/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/customer/**").hasRole("USER")
+                        .requestMatchers(HttpMethod.POST, "/customer/**").hasRole("USER")
+
                         .requestMatchers(HttpMethod.GET, "/admin/listOfUsers").authenticated())
-                .formLogin(form -> form
-                        .loginPage("/user/showLogin").permitAll())
+                .formLogin((form) -> form
+                                        .loginPage("/user/showLogin.html")
+                                        .loginProcessingUrl("/login")
+                                        .usernameParameter("email")
+                                        .passwordParameter("password")
+                                        .defaultSuccessUrl("/")
+                                        .permitAll()
+
+                        )
                 .build();
     }
     @Bean
@@ -43,7 +52,7 @@ public class SecurityConfiguration {
     }
     @Bean
     public UserDetailsService userDetailsService(){
-        return new UserDetailsServiceImpl(userRepository, passwordEncoder());
+        return new UserDetailsServiceImpl(userRepository);
     }
 
     @Bean

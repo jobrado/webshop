@@ -14,7 +14,7 @@ import java.time.format.DateTimeFormatter;
 public class Order {
     @Id
     private String id;
-    private CartItem cart;
+    private Cart cart;
     private Delivery delivery;
     private PaymentMethod paymentMethod;
     private DateTimeFormatter date;

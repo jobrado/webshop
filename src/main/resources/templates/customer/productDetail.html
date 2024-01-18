@@ -14,8 +14,8 @@
 
 <body>
 
-<div class="main container border " style="margin-top: 5rem; margin-bottom: 5rem">
-    <div class="row" th:object="${product}">
+<div class="main container border " style="margin-top: 5rem; margin-bottom: 5rem" th:object="${product}">
+    <div class="row" >
         <div class="p-3 col border ">
             <h5 th:text="*{name}"> </h5>
             <hr>
@@ -31,9 +31,9 @@
         </div>
     </div>
     <div class="float-right mt-2">
-        <form  th:action="@{/customer/addProductToCart/{id}(id=${product._id})}" method="post">
+        <form  th:action="@{/customer/addProductToCart/{id}(id=*{_id})}" method="post">
             <label for="quantityInput">Quantity:</label>
-            <input style="width: 3rem;" type="number" id="quantityInput" name="quantity" th:value="0" min="0" required>
+            <input style="width: 3rem;" type="number" id="quantityInput" name="quantity" th:value="0" th:field="" min="0" required>
             <button class="btn btn-warning" type="submit">Add to Cart</button>
         </form>
 
