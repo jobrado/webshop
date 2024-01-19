@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -18,6 +19,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @AllArgsConstructor
 @EnableWebSecurity
+@EnableMethodSecurity(prePostEnabled = true, proxyTargetClass = true)
 public class SecurityConfiguration {
 
     private UserRepository userRepository;
@@ -31,8 +33,8 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.POST, "/user/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/admin/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/admin/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/customer/**").hasRole("USER")
-                        .requestMatchers(HttpMethod.POST, "/customer/**").hasRole("USER")
+                        .requestMatchers( "/customer/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/customer/**").permitAll()
 
                         .requestMatchers(HttpMethod.GET, "/admin/listOfUsers").authenticated())
                 .formLogin((form) -> form
@@ -40,7 +42,7 @@ public class SecurityConfiguration {
                                         .loginProcessingUrl("/login")
                                         .usernameParameter("email")
                                         .passwordParameter("password")
-                                        .defaultSuccessUrl("/")
+                                        .defaultSuccessUrl("/customer/allProducts.html", true)
                                         .permitAll()
 
                         )

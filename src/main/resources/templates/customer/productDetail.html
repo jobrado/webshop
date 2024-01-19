@@ -13,32 +13,33 @@
 <header th:insert="~{fragments/general.html :: header}"></header>
 
 <body>
+<form  th:action="@{/customer/addProductToCart}"  method="post" th:object="${cartProduct}">
 
-<div class="main container border " style="margin-top: 5rem; margin-bottom: 5rem" th:object="${product}">
+<div class="main container border " style="margin-top: 5rem; margin-bottom: 5rem" th:field="${cartProduct.getProductDTO()}">
     <div class="row" >
         <div class="p-3 col border ">
-            <h5 th:text="*{name}"> </h5>
+            <h5 th:text="*{getProductDTO().name}"> </h5>
             <hr>
-            <img th:text="*{productPhotos}" src="productDetail.html" alt="">
+            <img th:text="*{getProductDTO().productPhotos.getImage()}" src="productDetail.html" alt="">
 
         </div>
         <div class="col">
 
-            <p class="p-3" th:text="*{description}"></p>
-            <p class="border-top p-3"  th:text="*{category.name}"></p>
-            <p class="border-top p-3 font-weight-bold text-right mr-3" style="color: darkgreen; font-size: 30px;" th:text="'$'+*{price}">$</p>
+            <p class="p-3" th:text="*{getProductDTO().description}"></p>
+            <p class="border-top p-3"  th:text="*{getProductDTO().category.name}"></p>
+            <p class="border-top p-3 font-weight-bold text-right mr-3" style="color: darkgreen; font-size: 30px;" th:text="'$'+*{getProductDTO().price}">$</p>
 
         </div>
     </div>
     <div class="float-right mt-2">
-        <form  th:action="@{/customer/addProductToCart/{id}(id=*{_id})}" method="post">
             <label for="quantityInput">Quantity:</label>
-            <input style="width: 3rem;" type="number" id="quantityInput" name="quantity" th:value="0" th:field="" min="0" required>
+            <input style="width: 3rem;" type="number" id="quantityInput" name="quantity" th:value="0" th:field="*{getCartDTO().product['quantityInput']}" min="0" required>
             <button class="btn btn-warning" type="submit">Add to Cart</button>
-        </form>
 
     </div>
+
 </div>
+</form>
 
 </body>
 <footer th:replace="~{fragments/general.html :: footer}"></footer>

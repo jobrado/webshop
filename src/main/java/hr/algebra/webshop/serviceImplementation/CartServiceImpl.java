@@ -46,10 +46,10 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public Optional<CartDTO> getCartByUserName(String email) {
+    public CartDTO getCartByUserName(String email) {
         return cartRepository.findAll().stream()
                 .filter(cart -> email.equals(cart.getUser().getEmail()))
                 .findFirst()
-                .map(CartMapper::mapToCartItemDTO);
+                .map(CartMapper::mapToCartItemDTO).orElse(new CartDTO());
     }
 }
