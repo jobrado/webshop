@@ -9,6 +9,7 @@ import hr.algebra.webshop.repository.OrderRepository;
 import hr.algebra.webshop.service.OrderService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 @Service
 public class OrderServiceImpl implements OrderService {
     private OrderRepository orderRepository;
+
     @Override
     public void createOrder(OrderDTO orderDTO) {
         orderRepository.save(OrderMapper.mapToOrder(orderDTO));
@@ -35,7 +37,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void deleteCategory(String id) {
-      orderRepository.findById(id).orElseThrow(()
+        orderRepository.findById(id).orElseThrow(()
                 -> new ResourceNotFoundException("order does not exist with a given id"));
         orderRepository.deleteById(id);
     }

@@ -23,6 +23,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfiguration {
 
     private UserRepository userRepository;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
@@ -33,32 +34,34 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.POST, "/user/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/admin/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/admin/**").hasRole("ADMIN")
-                        .requestMatchers( "/customer/**").permitAll()
+                        .requestMatchers("/customer/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/customer/**").permitAll()
 
                         .requestMatchers(HttpMethod.GET, "/admin/listOfUsers").authenticated())
                 .formLogin((form) -> form
-                                        .loginPage("/user/showLogin.html")
-                                        .loginProcessingUrl("/login")
-                                        .usernameParameter("email")
-                                        .passwordParameter("password")
-                                        .defaultSuccessUrl("/customer/allProducts.html", true)
-                                        .permitAll()
+                        .loginPage("/user/showLogin.html")
+                        .loginProcessingUrl("/login")
+                        .usernameParameter("email")
+                        .passwordParameter("password")
+                        .defaultSuccessUrl("/customer/allProducts.html", true)
+                        .permitAll()
 
-                        )
+                )
                 .build();
     }
+
     @Bean
-    public BCryptPasswordEncoder passwordEncoder(){
+    public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
     @Bean
-    public UserDetailsService userDetailsService(){
+    public UserDetailsService userDetailsService() {
         return new UserDetailsServiceImpl(userRepository);
     }
 
     @Bean
-    public AuthenticationProvider authenticationProvider(){
+    public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setUserDetailsService(userDetailsService());
         provider.setPasswordEncoder(passwordEncoder());

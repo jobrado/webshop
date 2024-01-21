@@ -18,18 +18,17 @@ public class AdminServiceImpl {
     @PostConstruct
     public void initializeAdmin() {
         String adminEmail = "admin@admin.admin";
-        String adminPassword ="admin";
-        try{
+        String adminPassword = "admin";
+        try {
             userService.getUserByEmail(adminEmail);
+        } catch (ResourceNotFoundException e) {
+            UserDTO adminUser = new UserDTO();
+            adminUser.setFirstName("Admin");
+            adminUser.setLastName("Adminovic");
+            adminUser.setEmail(adminEmail);
+            adminUser.setPassword(adminPassword);
+            adminUser.setRole(Collections.singleton(UserRole.ADMIN));
+            userService.createUser(adminUser);
         }
-        catch (ResourceNotFoundException e){
-        UserDTO adminUser = new UserDTO();
-        adminUser.setFirstName("Admin");
-        adminUser.setLastName("Adminovic");
-        adminUser.setEmail(adminEmail);
-        adminUser.setPassword(adminPassword);
-        adminUser.setRole(Collections.singleton(UserRole.ADMIN));
-        userService.createUser(adminUser);
-}
     }
 }

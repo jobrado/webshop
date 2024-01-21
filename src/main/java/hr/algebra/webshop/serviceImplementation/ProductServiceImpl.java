@@ -15,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -24,6 +25,7 @@ import java.util.stream.Collectors;
 public class ProductServiceImpl implements ProductService {
     public ProductRepository productRepository;
     public CategoryService categoryService;
+
     @Override
     public ProductDTO createProduct(ProductDTO productDTO) {
         CategoryDTO category = categoryService.getCategoryById(productDTO.getCategory().get_id());
@@ -75,7 +77,7 @@ public class ProductServiceImpl implements ProductService {
     public Page<ProductDTO> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection) {
         Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() : Sort.by(sortField).descending();
 
-        return productRepository.findAll(PageRequest.of(pageNo - 1,pageSize, sort)).map(ProductMapper::mapToProductDTO);
+        return productRepository.findAll(PageRequest.of(pageNo - 1, pageSize, sort)).map(ProductMapper::mapToProductDTO);
     }
 
     @Override

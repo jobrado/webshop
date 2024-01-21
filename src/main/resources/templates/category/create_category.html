@@ -16,7 +16,8 @@
     <form action="#" th:action="@{/admin/category/saveCategory}" th:object="${category}" method="POST">
         <div class="form-group mt-5">
             <label for="categoryName" class="ml-2">Name</label>
-            <input type="text" id="categoryName" class="form-control" th:field="*{name}" placeholder="Category name"><br>
+            <input type="text" id="categoryName" class="form-control" th:field="*{name}"
+                   placeholder="Category name"><br>
         </div>
         <div class="form-group ">
             <label for="categoryDesc" class="ml-2">Description</label>

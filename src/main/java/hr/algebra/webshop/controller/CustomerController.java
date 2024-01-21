@@ -18,6 +18,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,13 +45,15 @@ public class CustomerController {
     }
 
     @GetMapping("/showProductDetails/{id}")
-    public String showProductDetails(@PathVariable("id") String id, Model model) {
+    public String showProductDetails(@PathVariable("id") String id,
+                                     Model model) {
         model.addAttribute("product", productService.getProductById(id));
         return "customer/productDetail";
     }
 
     @GetMapping("/allProducts/{id}")
-    public String showProductsByCategoryId(@PathVariable("id") String id, Model model) {
+    public String showProductsByCategoryId(@PathVariable("id") String id,
+                                           Model model) {
         List<ProductDTO> productList = productService.getProductsByCategory_id(id);
         model.addAttribute("products", productList);
         model.addAttribute("categories", categoryService.getAllCategories());
@@ -60,7 +63,9 @@ public class CustomerController {
 
     @PostMapping("/addProductToCart/{id}")
     @PreAuthorize("hasRole('ROLE_USER')")
-    public String addProductToCart(@PathVariable String id, @RequestParam("quantity") Integer quantity, Authentication authentication) {
+    public String addProductToCart(@PathVariable String id,
+                                   @RequestParam("quantity") Integer quantity,
+                                   Authentication authentication) {
         String username = authentication.getName();
         ProductDTO productDTO = productService.getProductById(id);
         UserDTO user = userService.getUserByEmail(username);
@@ -76,7 +81,6 @@ public class CustomerController {
         } else {
             cartService.createCart(cart);
         }
-
 
         return "redirect:http://localhost:8080/customer/cart";
     }
@@ -103,7 +107,8 @@ public class CustomerController {
 
     @GetMapping("/deleteProductFromCart/{id}")
     @PreAuthorize("hasRole('ROLE_USER')")
-    public String deleteProductFromCart(@PathVariable String id, @RequestParam String cartId) {
+    public String deleteProductFromCart(@PathVariable String id,
+                                        @RequestParam String cartId) {
 
         cartService.deleteCartItemFromCart(cartId, id);
         try {
@@ -119,7 +124,9 @@ public class CustomerController {
 
     @GetMapping("/updateProductFromCart/{id}")
     @PreAuthorize("hasRole('ROLE_USER')")
-    public String updateProductFromCart(@PathVariable String id, @RequestParam String cartId, @RequestParam int quantity) {
+    public String updateProductFromCart(@PathVariable String id,
+                                        @RequestParam String cartId,
+                                        @RequestParam int quantity) {
         CartDTO cartById = cartService.getCartById(cartId);
         cartById.getCartItem()
                 .stream().filter(cartItem -> cartItem.getId().equals(id))
@@ -134,7 +141,8 @@ public class CustomerController {
 
     @GetMapping("/cart")
     @PreAuthorize("hasRole('ROLE_USER')")
-    public String showCart(Model model, Authentication authentication) {
+    public String showCart(Model model,
+                           Authentication authentication) {
         Optional<CartDTO> cartDTO = cartService.getCartByUserName(authentication.getName());
         cartDTO.ifPresentOrElse(
                 cart -> model.addAttribute("cart", cart),
@@ -149,15 +157,15 @@ public class CustomerController {
                                                  @PathVariable String id) {
         CartDTO cartById = cartService.getCartById(id);
         model.addAttribute("cart", cartById);
-        return "customer/deliveryAndPaymentInfo";
 
+        return "customer/deliveryAndPaymentInfo";
     }
 
     @PostMapping("makeAnOrder/{id}")
     @PreAuthorize("hasRole('ROLE_USER')")
     public String makeAnOrder(@RequestParam Delivery deliveryMethod,
                               @RequestParam PaymentMethod paymentMethod,
-                              @PathVariable("id") String id, Model model){
+                              @PathVariable("id") String id, Model model) {
         CartDTO cartById = cartService.getCartById(id);
         OrderDTO order = new OrderDTO();
         order.setCart(cartById);
@@ -171,7 +179,6 @@ public class CustomerController {
         return "customer/order";
 
     }
-
 
 }
 

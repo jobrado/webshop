@@ -1,15 +1,17 @@
 package hr.algebra.webshop.serviceImplementation;
 
 
+import hr.algebra.webshop.entity.User;
 import hr.algebra.webshop.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import hr.algebra.webshop.entity.User;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

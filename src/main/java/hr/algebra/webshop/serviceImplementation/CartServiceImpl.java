@@ -11,7 +11,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
 
-
 @Service
 @AllArgsConstructor
 public class CartServiceImpl implements CartService {
@@ -35,8 +34,6 @@ public class CartServiceImpl implements CartService {
         cart.setCartItem(cartDTO.getCartItem());
         cartRepository.save(cart);
         System.out.println(cart);
-
-
     }
 
     @Override

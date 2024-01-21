@@ -11,7 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import java.io.IOException;
+
 import java.util.List;
 
 @AllArgsConstructor
@@ -39,7 +39,7 @@ public class ProductController {
     }
 
     @PostMapping("/saveProduct")
-    public String saveProduct(@ModelAttribute("product") ProductDTO product)  {
+    public String saveProduct(@ModelAttribute("product") ProductDTO product) {
         System.out.println();
         productService.createProduct(product);
 
@@ -47,9 +47,9 @@ public class ProductController {
     }
 
     @GetMapping("/showFormForUpdateProduct/{id}")
-    public String showUpdateForm(@PathVariable String id, Model model) {
+    public String showUpdateForm(@PathVariable String id,
+                                 Model model) {
         List<CategoryDTO> categoryDTOS = categoryService.getAllCategories();
-
         model.addAttribute("product", productService.getProductById(id));
         model.addAttribute("categories", categoryDTOS);
 
@@ -57,17 +57,20 @@ public class ProductController {
     }
 
     @PostMapping("/updateProduct/{id}")
-    public String updateProduct(@PathVariable String id, @ModelAttribute("product") ProductDTO product, @ModelAttribute("category") List<CategoryDTO> category) {
-        productService.updateProduct(id,product);
+    public String updateProduct(@PathVariable String id,
+                                @ModelAttribute("product") ProductDTO product,
+                                @ModelAttribute("category") List<CategoryDTO> category) {
+        productService.updateProduct(id, product);
 
         return "redirect:/admin/";
     }
 
     @GetMapping("/deleteProduct/{id}")
-    public String deleteProduct(@PathVariable String id, @ModelAttribute("product") ProductDTO product){
+    public String deleteProduct(@PathVariable String id, @ModelAttribute("product") ProductDTO product) {
         productService.deleteProduct(id);
         return "redirect:/admin/";
     }
+
     @GetMapping("/listOfUsers")
     public String viewListOfUsers(Model model) {
         model.addAttribute("users", userService.getAllUsers());
@@ -75,10 +78,10 @@ public class ProductController {
     }
 
     @GetMapping("/page/{pageNo}")
-    public String findPage(@PathVariable (value = "pageNo") int pageNo,
+    public String findPage(@PathVariable(value = "pageNo") int pageNo,
                            Model model,
                            @RequestParam("sortField") String sortField,
-                           @RequestParam ("sortDirection") String sortDirection){
+                           @RequestParam("sortDirection") String sortDirection) {
         int pageSize = 5;
         Page<ProductDTO> page = productService.findPaginated(pageNo, pageSize, sortField, sortDirection);
         List<ProductDTO> productDTOList = page.getContent();

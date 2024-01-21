@@ -8,6 +8,7 @@ import hr.algebra.webshop.repository.CategoryRepository;
 import hr.algebra.webshop.service.CategoryService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;

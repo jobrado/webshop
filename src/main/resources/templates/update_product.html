@@ -24,7 +24,7 @@
         </div>
         <div class="form-group" th:object="${product.category}">
             <label for="productCategory" class="ml-2">Category</label>
-            <select class="form-control"  id="productCategory">
+            <select class="form-control" id="productCategory">
                 <option value="0">select category</option>
                 <option th:each="category : ${product.category}" th:value="*{_id}" th:text="*{name}"></option>
             </select>

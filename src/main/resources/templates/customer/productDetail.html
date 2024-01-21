@@ -13,34 +13,36 @@
 <header th:insert="~{fragments/general.html :: header}"></header>
 
 <body>
-<form  th:action="@{/customer/addProductToCart/{id}(id=${product._id})}"  method="post" th:object="${product}">
-<div class="main container border " style="margin-top: 5rem; margin-bottom: 5rem"  >
-    <div class="row" >
-        <div class="p-3 col border ">
-            <h5 th:text="*{name}"> </h5>
-            <hr>
-            <img th:text="*{productPhotos.getImage()}" src="productDetail.html" alt="">
+<form th:action="@{/customer/addProductToCart/{id}(id=${product._id})}" method="post" th:object="${product}">
+    <div class="main container border " style="margin-top: 5rem; margin-bottom: 5rem">
+        <div class="row">
+            <div class="p-3 col border ">
+                <h5 th:text="*{name}"></h5>
+                <hr>
+                <img th:text="*{productPhotos.getImage()}" src="productDetail.html" alt="">
 
+            </div>
+            <div class="col">
+
+                <p class="p-3" th:text="*{description}"></p>
+                <p class="border-top p-3" th:text="*{category.getName()}"></p>
+                <p class="border-top p-3 font-weight-bold text-right mr-3" style="color: darkgreen; font-size: 30px;"
+                   th:text="'$'+*{price}">$</p>
+
+            </div>
         </div>
-        <div class="col">
-
-            <p class="p-3" th:text="*{description}"></p>
-            <p class="border-top p-3"  th:text="*{category.getName()}"></p>
-            <p class="border-top p-3 font-weight-bold text-right mr-3" style="color: darkgreen; font-size: 30px;" th:text="'$'+*{price}">$</p>
-
-        </div>
-    </div>
 
 
-    <div class="float-right mt-2">
+        <div class="float-right mt-2">
             <label for="quantityInput">Quantity:</label>
-            <input style="width: 3rem;" type="number" id="quantityInput" name="quantity" th:value="0" th:name="quantity" min="0" required>
+            <input style="width: 3rem;" type="number" id="quantityInput" name="quantity" th:value="0" th:name="quantity"
+                   min="0" required>
             <button class="btn btn-warning" type="submit">Add to Cart</button>
 
+        </div>
+
+
     </div>
-
-
-</div>
 </form>
 </body>
 <footer th:replace="~{fragments/general.html :: footer}"></footer>

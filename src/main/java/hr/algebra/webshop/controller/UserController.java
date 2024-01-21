@@ -18,29 +18,27 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/user")
 public class UserController {
-
     private UserService userService;
 
-
     @PostMapping("/registerNewUser")
-    public String createUser(@ModelAttribute("userDTO") @Valid UserDTO userDTO, BindingResult bindingResult) {
+    public String createUser(@ModelAttribute("userDTO") @Valid UserDTO userDTO,
+                             BindingResult bindingResult) {
 
-            if(bindingResult.hasErrors() || userDoesNotExist(userDTO.getEmail())){
-                return "redirect:/user/showFormRegisterUser?fail";
-            }
-            else {
-                userService.createUser(userDTO);
-                return "redirect:/admin/";
-            }
+        if (bindingResult.hasErrors() || userDoesNotExist(userDTO.getEmail())) {
+            return "redirect:/user/showFormRegisterUser?fail";
+        } else {
+            userService.createUser(userDTO);
+            return "redirect:/admin/";
+        }
 
     }
 
     private boolean userDoesNotExist(String email) {
-     try{
-        userService.getUserByEmail(email);}
-     catch (ResourceNotFoundException e){
-         return false;
-     }
+        try {
+            userService.getUserByEmail(email);
+        } catch (ResourceNotFoundException e) {
+            return false;
+        }
         return true;
     }
 
