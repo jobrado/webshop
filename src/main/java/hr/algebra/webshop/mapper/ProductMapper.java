@@ -18,7 +18,8 @@ public class ProductMapper {
                 product.getDescription(),
                 photosDTO,
                 product.getPrice(),
-                product.getQuantity(),
+                product.getQuantityOnStock(),
+                product.getQuantityInCart(),
                 product.isAvailable()
         );
     }
@@ -32,7 +33,8 @@ public class ProductMapper {
                 product.getDescription(),
                 photos,
                 product.getPrice(),
-                product.getQuantity(),
+                product.getQuantityOnStock(),
+                product.getQuantityInCart(),
                 product.isAvailable()
         );
     }

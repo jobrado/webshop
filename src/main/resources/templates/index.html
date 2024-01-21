@@ -4,6 +4,7 @@
 <head>
     <title>Virgo V</title>
     <meta charset="ISO-8859-1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet"
           href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
@@ -46,7 +47,7 @@
                 <td th:text="${product.description}"></td>
                 <td th:text="${product.category.name}"></td>
                 <td th:text="${product.price}"></td>
-                <td th:text="${product.quantity}"></td>
+                <td th:text="${product.quantityOnStock}"></td>
                 <td th:text="${product.productPhotos}"></td>
                 <td><a th:href="@{/admin/showFormForUpdateProduct/{id}(id=${product._id})}"
                        class="btn btn-info">Update</a></td>

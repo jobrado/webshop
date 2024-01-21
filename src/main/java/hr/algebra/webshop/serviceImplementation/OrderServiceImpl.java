@@ -3,6 +3,7 @@ package hr.algebra.webshop.serviceImplementation;
 import hr.algebra.webshop.Exception.ResourceNotFoundException;
 import hr.algebra.webshop.dto.OrderDTO;
 import hr.algebra.webshop.entity.Order;
+import hr.algebra.webshop.mapper.CartMapper;
 import hr.algebra.webshop.mapper.OrderMapper;
 import hr.algebra.webshop.repository.OrderRepository;
 import hr.algebra.webshop.service.OrderService;
@@ -25,7 +26,7 @@ public class OrderServiceImpl implements OrderService {
     public void updateOrder(String id, OrderDTO orderDTO) {
         Order order = orderRepository.findById(id).orElseThrow(()
                 -> new ResourceNotFoundException("order does not exist with a given id"));
-        order.setCart(orderDTO.getCart());
+        order.setCart(CartMapper.mapToCartItem(orderDTO.getCart()));
         order.setDelivery(orderDTO.getDelivery());
         order.setPaymentMethod(orderDTO.getPaymentMethod());
         order.setDate(orderDTO.getDate());

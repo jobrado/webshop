@@ -29,6 +29,7 @@ public class User implements UserDetails {
 
     private Set<UserRole> role;
 
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return getRole().stream()

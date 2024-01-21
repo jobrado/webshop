@@ -9,5 +9,6 @@ public interface CartService {
     void updateCart(String id, CartDTO cartItemDTO);
     void deleteCart(String id);
     CartDTO getCartById(String id);
-    CartDTO getCartByUserName(String id);
+    Optional<CartDTO> getCartByUserName(String id);
+    void deleteCartItemFromCart(String cartId, String cartItemId);
 }

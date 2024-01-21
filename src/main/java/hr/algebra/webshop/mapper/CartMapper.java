@@ -7,7 +7,7 @@ public class CartMapper {
     public static CartDTO mapToCartItemDTO (Cart cartItem) {
         return new CartDTO(
                 cartItem.getId(),
-                cartItem.getProduct(),
+                cartItem.getCartItem(),
                 cartItem.getUser(),
                 cartItem.getTotalPrice()
 
@@ -16,7 +16,7 @@ public class CartMapper {
     public static Cart mapToCartItem(CartDTO cartItemDTO) {
         return new Cart(
                 cartItemDTO.getId(),
-                cartItemDTO.getProduct(),
+                cartItemDTO.getCartItem(),
                 cartItemDTO.getUser(),
                 cartItemDTO.getTotalPrice()
 

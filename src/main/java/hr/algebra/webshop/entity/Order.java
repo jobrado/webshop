@@ -6,8 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
 @Document
 @AllArgsConstructor
 @Data
@@ -17,6 +16,6 @@ public class Order {
     private Cart cart;
     private Delivery delivery;
     private PaymentMethod paymentMethod;
-    private DateTimeFormatter date;
+    private LocalDateTime date;
 
 }

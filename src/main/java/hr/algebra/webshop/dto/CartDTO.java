@@ -1,20 +1,25 @@
 package hr.algebra.webshop.dto;
 
-import hr.algebra.webshop.entity.Product;
+import hr.algebra.webshop.entity.CartItem;
+
 import hr.algebra.webshop.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.util.List;
 
-import java.util.Map;
+
 @AllArgsConstructor
 @Data
 @NoArgsConstructor
 public class CartDTO {
     private String id;
-    private Map<Product,Integer> product;
+    private List<CartItem> cartItem;
     private User user;
-    private Integer totalPrice;
+    private Double totalPrice;
 
+    public CartDTO(User user) {
+        this.user = user;
+    }
 }
 

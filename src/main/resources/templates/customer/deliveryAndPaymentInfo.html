@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Virgo V</title>
+    <meta charset="ISO-8859-1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+          crossorigin="anonymous">
+</head>
+<header th:insert="~{fragments/general.html :: header}"></header>
+
+<body>
+<div class="container mt-5">
+    <h2 class="mb-4">Order Form</h2>
+    <form th:action="@{/customer/makeAnOrder/{id}(id=${cart.id})}" th:method="post">
+        <div class="mb-3">
+            <label class="form-label">Your Name:</label>
+            <label th:text="${cart.getUser().getFirstName()} +' '+ ${cart.getUser().getLastName()}"></label>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label d-block">Delivery Method:</label>
+            <div th:each="deliveryMethod : ${T(hr.algebra.webshop.enums.Delivery).values()}">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio"
+                           th:id="${'deliveryMethod' + deliveryMethod}"
+                           th:name="deliveryMethod"
+                           th:value="${deliveryMethod}"
+                           checked>
+                    <label class="form-check-label" th:for="${'deliveryMethod' + deliveryMethod}"
+                           th:text="${#strings.capitalize(deliveryMethod.name())}"></label>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label d-block">Payment Method:</label>
+            <div th:each="paymentMethod : ${T(hr.algebra.webshop.enums.PaymentMethod).values()}">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio"
+                           th:id="${'paymentMethod' + paymentMethod}"
+                           th:name="paymentMethod"
+                           th:value="${paymentMethod}"
+                           checked>
+                    <label class="form-check-label" th:for="${'paymentMethod' + paymentMethod}"
+                           th:text="${#strings.capitalize(paymentMethod.name())}"></label>
+                </div>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary" >Place Order</button>
+    </form>
+</div>
+</body>
+
+</html>

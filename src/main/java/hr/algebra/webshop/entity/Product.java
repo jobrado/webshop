@@ -22,6 +22,7 @@ public class Product {
     private String description;
     private Photo productPhotos;
     private double price;
-    private int quantity;
+    private int quantityOnStock;
+    private int quantityInCart;
     private boolean isAvailable;
 }
