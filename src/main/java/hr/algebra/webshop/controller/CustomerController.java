@@ -18,7 +18,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,12 +34,18 @@ public class CustomerController {
     private OrderService orderService;
 
     @GetMapping("/allProducts.html")
-    public String showProducts(Model model) {
+    public String showProducts(Model model, Authentication authentication) {
 
         List<ProductDTO> productList = productService.getAllProducts();
         model.addAttribute("products", productList);
         model.addAttribute("categories", categoryService.getAllCategories());
-
+        model.addAttribute("authentication", authentication);
+        if(authentication != null){
+        boolean role_admin = authentication.getAuthorities().toString().equals("[ROLE_ADMIN]");
+        boolean role_user = authentication.getAuthorities().toString().equals("[ROLE_USER]");
+        model.addAttribute("role_admin", role_admin);
+        model.addAttribute("role_user", role_user);
+        }
         return "customer/productList";
     }
 
@@ -106,7 +111,6 @@ public class CustomerController {
     }
 
     @GetMapping("/deleteProductFromCart/{id}")
-    @PreAuthorize("hasRole('ROLE_USER')")
     public String deleteProductFromCart(@PathVariable String id,
                                         @RequestParam String cartId) {
 
@@ -123,7 +127,6 @@ public class CustomerController {
     }
 
     @GetMapping("/updateProductFromCart/{id}")
-    @PreAuthorize("hasRole('ROLE_USER')")
     public String updateProductFromCart(@PathVariable String id,
                                         @RequestParam String cartId,
                                         @RequestParam int quantity) {
@@ -140,7 +143,6 @@ public class CustomerController {
 
 
     @GetMapping("/cart")
-    @PreAuthorize("hasRole('ROLE_USER')")
     public String showCart(Model model,
                            Authentication authentication) {
         Optional<CartDTO> cartDTO = cartService.getCartByUserName(authentication.getName());
@@ -152,7 +154,6 @@ public class CustomerController {
     }
 
     @GetMapping("/chooseDeliveryAndPaymentMethod/{id}")
-    @PreAuthorize("hasRole('ROLE_USER')")
     public String chooseDeliveryAndPaymentMethod(Model model,
                                                  @PathVariable String id) {
         CartDTO cartById = cartService.getCartById(id);

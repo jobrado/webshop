@@ -19,7 +19,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @AllArgsConstructor
 @EnableWebSecurity
-@EnableMethodSecurity(prePostEnabled = true, proxyTargetClass = true)
+@EnableMethodSecurity(proxyTargetClass = true)
 public class SecurityConfiguration {
 
     private UserRepository userRepository;
@@ -30,6 +30,7 @@ public class SecurityConfiguration {
 
         return http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizeConfig -> authorizeConfig
+                        .requestMatchers(HttpMethod.GET, "/").permitAll()
                         .requestMatchers(HttpMethod.GET, "/user/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/user/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/admin/**").hasRole("ADMIN")
@@ -44,9 +45,13 @@ public class SecurityConfiguration {
                         .usernameParameter("email")
                         .passwordParameter("password")
                         .defaultSuccessUrl("/customer/allProducts.html", true)
+
                         .permitAll()
 
                 )
+                .logout((logout) -> logout
+                        .logoutSuccessUrl("/user/showLogin.html"))
+
                 .build();
     }
 

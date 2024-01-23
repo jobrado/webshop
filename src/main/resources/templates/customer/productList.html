@@ -9,7 +9,7 @@
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
           rel="stylesheet">
 </head>
-<header th:insert="~{fragments/general.html :: header}"></header>
+<header th:insert="~{fragments/general :: header(authentication=${authentication})}"></header>
 
 <body>
 
@@ -30,6 +30,8 @@
             </ul>
         </div>
     </div>
+
+
     <div class="col-8 container mt-5">
         <div class="row">
 
