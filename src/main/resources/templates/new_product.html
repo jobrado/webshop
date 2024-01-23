@@ -10,6 +10,7 @@
           crossorigin="anonymous">
 </head>
 <body>
+<header th:insert="~{fragments/general :: header(authentication=${authentication})}"></header>
 <div class="container p-4 mt-5 border shadow-sm rounded" style="width: 80%">
     <h1 class="text-center"> Create product </h1>
 

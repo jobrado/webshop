@@ -11,7 +11,7 @@
 </head>
 <body>
 
-<div th:replace="~{fragments/general.html :: header}"></div>
+<header th:insert="~{fragments/general :: header(authentication=${authentication})}"></header>
 <div class="container h-100  " style="margin-top:120px; margin-bottom: 120px">
     <div class="row h-100 justify-content-center align-items-center mt-5">
 

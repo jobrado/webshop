@@ -1,8 +1,10 @@
 package hr.algebra.webshop.controller;
 
+import hr.algebra.webshop.Util;
 import hr.algebra.webshop.dto.CategoryDTO;
 import hr.algebra.webshop.service.CategoryService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -16,14 +18,18 @@ public class CategoryController {
     public CategoryService categoryService;
 
     @GetMapping("/")
-    public String showAllCategories(Model model) {
+    public String showAllCategories(Model model, Authentication authentication) {
+        Util.addRoleToNavBar(authentication,  model);
+
         model.addAttribute("categories", categoryService.getAllCategories());
         return "category/listOfCategories";
     }
 
     @GetMapping("/showFormForCreatingCategory")
-    public String showFormForCreatingCategory(Model model) {
+    public String showFormForCreatingCategory(Model model, Authentication authentication) {
         model.addAttribute("category", new CategoryDTO());
+        Util.addRoleToNavBar(authentication,  model);
+
         return "category/create_category";
     }
 
@@ -35,13 +41,15 @@ public class CategoryController {
     }
 
     @GetMapping("/showFormForUpdateCategory/{id}")
-    public String showFormForUpdateCategory(Model model, @PathVariable String id) {
+    public String showFormForUpdateCategory(Model model, @PathVariable String id, Authentication authentication) {
+        Util.addRoleToNavBar(authentication,  model);
+
         model.addAttribute("category", categoryService.getCategoryById(id));
         return "category/update_category";
     }
 
     @PostMapping("/updateCategory/{id}")
-    public String updateProduct(@PathVariable String id, @ModelAttribute("category") CategoryDTO categoryDTO) throws IOException {
+    public String updateProduct(@PathVariable String id, @ModelAttribute("category") CategoryDTO categoryDTO) {
         categoryService.updateCategory(id, categoryDTO);
         return "redirect:/admin/category/";
     }

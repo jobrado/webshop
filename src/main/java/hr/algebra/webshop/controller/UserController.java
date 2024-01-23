@@ -1,10 +1,12 @@
 package hr.algebra.webshop.controller;
 
 import hr.algebra.webshop.Exception.ResourceNotFoundException;
+import hr.algebra.webshop.Util;
 import hr.algebra.webshop.dto.UserDTO;
 import hr.algebra.webshop.service.UserService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -50,9 +52,12 @@ public class UserController {
     }
 
     @GetMapping("/showLogin.html")
-    public String loginPage(Model model) {
+    public String loginPage(Model model, Authentication authentication) {
         model.addAttribute("user", new UserDTO());
+        Util.addRoleToNavBar(authentication,  model);
+
         return "login";
     }
+
 
 }

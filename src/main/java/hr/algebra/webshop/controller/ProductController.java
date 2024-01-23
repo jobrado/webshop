@@ -1,5 +1,6 @@
 package hr.algebra.webshop.controller;
 
+import hr.algebra.webshop.Util;
 import hr.algebra.webshop.dto.CategoryDTO;
 import hr.algebra.webshop.dto.ProductDTO;
 import hr.algebra.webshop.service.CategoryService;
@@ -8,6 +9,7 @@ import hr.algebra.webshop.service.ProductService;
 import hr.algebra.webshop.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -24,16 +26,17 @@ public class ProductController {
     public CategoryService categoryService;
 
     @GetMapping("/")
-    public String viewHomePage(Model model) {
+    public String viewHomePage(Model model, Authentication authentication) {
 
-        return findPage(1, model, "price", "asc");
+        return findPage(1, model, "price", "asc", authentication);
     }
 
     @GetMapping("/showFormForCreateNewProduct")
-    public String createNewProduct(Model model) {
+    public String createNewProduct(Model model, Authentication authentication) {
         List<CategoryDTO> categoryDTOS = categoryService.getAllCategories();
         model.addAttribute("product", new ProductDTO());
         model.addAttribute("categories", categoryDTOS);
+        Util.addRoleToNavBar(authentication,  model);
         return "new_product";
 
     }
@@ -48,11 +51,11 @@ public class ProductController {
 
     @GetMapping("/showFormForUpdateProduct/{id}")
     public String showUpdateForm(@PathVariable String id,
-                                 Model model) {
+                                 Model model, Authentication authentication) {
         List<CategoryDTO> categoryDTOS = categoryService.getAllCategories();
         model.addAttribute("product", productService.getProductById(id));
         model.addAttribute("categories", categoryDTOS);
-
+        Util.addRoleToNavBar(authentication,  model);
         return "update_product";
     }
 
@@ -72,16 +75,19 @@ public class ProductController {
     }
 
     @GetMapping("/listOfUsers")
-    public String viewListOfUsers(Model model) {
+    public String viewListOfUsers(Model model, Authentication authentication) {
         model.addAttribute("users", userService.getAllUsers());
+        Util.addRoleToNavBar(authentication,  model);
         return "listOfUsers";
+
     }
 
     @GetMapping("/page/{pageNo}")
     public String findPage(@PathVariable(value = "pageNo") int pageNo,
                            Model model,
                            @RequestParam("sortField") String sortField,
-                           @RequestParam("sortDirection") String sortDirection) {
+                           @RequestParam("sortDirection") String sortDirection,
+                           Authentication authentication) {
         int pageSize = 5;
         Page<ProductDTO> page = productService.findPaginated(pageNo, pageSize, sortField, sortDirection);
         List<ProductDTO> productDTOList = page.getContent();
@@ -92,7 +98,9 @@ public class ProductController {
         model.addAttribute("sortField", sortField);
         model.addAttribute("sortDirection", sortDirection);
         model.addAttribute("reverseSortDirection", sortDirection.equals("asc") ? "desc" : "asc");
+        Util.addRoleToNavBar(authentication,  model);
         return "index";
     }
+
 
 }

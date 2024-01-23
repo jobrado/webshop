@@ -9,8 +9,11 @@
           crossorigin="anonymous">
 </head>
 <body>
+<header th:insert="~{fragments/general :: header(authentication=${authentication})}"></header>
+
 <div class="container p-4 mt-5 border shadow-sm rounded" style="width: 80%">
     <h1 class="text-center"> Update product </h1>
+
 
     <form action="#" th:action="@{/admin/updateProduct/{id}(id=${product._id})}" th:object="${product}" method="POST">
         <div class="form-group mt-5">

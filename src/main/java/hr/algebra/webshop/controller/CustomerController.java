@@ -1,6 +1,7 @@
 package hr.algebra.webshop.controller;
 
 import hr.algebra.webshop.Exception.ResourceNotFoundException;
+import hr.algebra.webshop.Util;
 import hr.algebra.webshop.dto.CartDTO;
 import hr.algebra.webshop.dto.OrderDTO;
 import hr.algebra.webshop.dto.ProductDTO;
@@ -39,29 +40,29 @@ public class CustomerController {
         List<ProductDTO> productList = productService.getAllProducts();
         model.addAttribute("products", productList);
         model.addAttribute("categories", categoryService.getAllCategories());
-        model.addAttribute("authentication", authentication);
-        if(authentication != null){
-        boolean role_admin = authentication.getAuthorities().toString().equals("[ROLE_ADMIN]");
-        boolean role_user = authentication.getAuthorities().toString().equals("[ROLE_USER]");
-        model.addAttribute("role_admin", role_admin);
-        model.addAttribute("role_user", role_user);
-        }
+        Util.addRoleToNavBar(authentication,  model);
         return "customer/productList";
     }
 
+
+
     @GetMapping("/showProductDetails/{id}")
     public String showProductDetails(@PathVariable("id") String id,
-                                     Model model) {
+                                     Model model,
+                                     Authentication authentication) {
         model.addAttribute("product", productService.getProductById(id));
+        Util.addRoleToNavBar(authentication,  model);
         return "customer/productDetail";
     }
 
     @GetMapping("/allProducts/{id}")
     public String showProductsByCategoryId(@PathVariable("id") String id,
-                                           Model model) {
+                                           Model model,
+                                           Authentication authentication) {
         List<ProductDTO> productList = productService.getProductsByCategory_id(id);
         model.addAttribute("products", productList);
         model.addAttribute("categories", categoryService.getAllCategories());
+        Util.addRoleToNavBar(authentication,  model);
         return "customer/productList";
     }
 
@@ -145,19 +146,31 @@ public class CustomerController {
     @GetMapping("/cart")
     public String showCart(Model model,
                            Authentication authentication) {
-        Optional<CartDTO> cartDTO = cartService.getCartByUserName(authentication.getName());
+        if(authentication != null){
+            Optional<CartDTO> cartDTO = cartService.getCartByUserName(authentication.getName());
+            cartDTO.ifPresentOrElse(
+                    cart -> model.addAttribute("cart", cart),
+                    () -> model.addAttribute("cartNotFound", true)
+            );}
+        else{
+            model.addAttribute("cartNotFound", true);
+        }
+       /* Optional<CartDTO> cartDTO = cartService.getCartByUserName(authentication.getName());
         cartDTO.ifPresentOrElse(
                 cart -> model.addAttribute("cart", cart),
                 () -> model.addAttribute("cartNotFound", true)
-        );
+        );*/
+        Util.addRoleToNavBar(authentication,  model);
         return "customer/cart";
     }
 
     @GetMapping("/chooseDeliveryAndPaymentMethod/{id}")
     public String chooseDeliveryAndPaymentMethod(Model model,
-                                                 @PathVariable String id) {
+                                                 @PathVariable String id,
+                                                 Authentication authentication) {
         CartDTO cartById = cartService.getCartById(id);
         model.addAttribute("cart", cartById);
+        Util.addRoleToNavBar(authentication,  model);
 
         return "customer/deliveryAndPaymentInfo";
     }
@@ -166,7 +179,8 @@ public class CustomerController {
     @PreAuthorize("hasRole('ROLE_USER')")
     public String makeAnOrder(@RequestParam Delivery deliveryMethod,
                               @RequestParam PaymentMethod paymentMethod,
-                              @PathVariable("id") String id, Model model) {
+                              @PathVariable("id") String id, Model model,
+                              Authentication authentication) {
         CartDTO cartById = cartService.getCartById(id);
         OrderDTO order = new OrderDTO();
         order.setCart(cartById);
@@ -175,10 +189,20 @@ public class CustomerController {
         order.setDate(LocalDateTime.now());
 
         orderService.createOrder(order);
+        cartService.deleteCart(id);
 
         model.addAttribute("order", order);
+        Util.addRoleToNavBar(authentication,  model);
         return "customer/order";
 
+    }
+
+    @GetMapping("/getOrderHistory")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public String orderHistory(Model model, Authentication authentication){
+        Util.addRoleToNavBar(authentication,  model);
+        model.addAttribute("orders", orderService.getAllOrdersByUserId(authentication.getName()));
+        return "customer/orderHistory";
     }
 
 }

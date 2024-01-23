@@ -16,18 +16,18 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">All products<span class="sr-only">(current)</span></a>
+                    <a class="nav-link" th:href="@{/customer/allProducts.html}">All products<span class="sr-only">(current)</span></a>
                 </li>
                 <th:block th:if="${role_admin  != true}">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Cart</a>
+                    <a class="nav-link" th:href="@{/customer/cart}">Cart</a>
                 </li>
                 </th:block>
 
                 <th:block th:if="${authentication != null and role_admin == true}">
-                    <a class="nav-link" href="">Add products</a>
-                    <a class="nav-link" href="">Add categories</a>
-                    <a class="nav-link" href="">See users</a>
+                    <a class="nav-link" th:href="@{/admin/}">Products</a>
+                    <a class="nav-link" th:href="@{/admin/category/}">Categories</a>
+                    <a class="nav-link" th:href="@{/admin/listOfUsers}">Users</a>
 
                 </th:block>
 
@@ -35,13 +35,10 @@
         </div>
 
                 <ul class="navbar-nav ">
-                    <!-- Dropdown menu -->
                     <li class="nav-item  my-2 my-lg-0">
                         <div class="collapse navbar-collapse">
-
-
                             <th:block th:if="${authentication != null and role_user == true}">
-                                <a class="nav-link" href="#">User Profile</a>
+                                <a class="nav-link" th:href="@{/customer/getOrderHistory}">User Profile</a>
                             </th:block>
                             <th:block th:if="${authentication != null}">
                             <a class="nav-link" th:href="@{/logout}">Logout</a>

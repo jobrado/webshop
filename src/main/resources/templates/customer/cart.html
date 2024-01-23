@@ -12,13 +12,21 @@
           crossorigin="anonymous">
     <link rel="stylesheet" href="/css/mainstyle.css">
 </head>
-<header th:insert="~{fragments/general.html :: header}"></header>
+<header th:insert="~{fragments/general :: header(authentication=${authentication})}"></header>
 
 <body>
-<div th:if="${cartNotFound}">
-    <p>Cart not found. Redirecting or handling accordingly...</p>
-    <div class="m-3" th:if="${param.no_products}">
-        <div class="alert alert-info"> No products in cart"</div>
+
+<div style="margin-top: 10%; margin-bottom: 10%" th:if="${cartNotFound}">
+    <div class="card text-center">
+        <div class="card-header">
+            No products in cart
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Please add products before you view cart...</h5>
+            <p class="card-text">You can search and add them by pressing this button:</p>
+            <a th:href="@{/customer/allProducts}" class="btn btn-primary">Add products</a>
+        </div>
+
     </div>
 </div>
 <div th:unless="${cartNotFound}">

@@ -10,7 +10,7 @@
           crossorigin="anonymous">
     <link rel="stylesheet" href="/css/mainstyle.css">
 </head>
-<header th:insert="~{fragments/general.html :: header}"></header>
+<header th:insert="~{fragments/general :: header(authentication=${authentication})}"></header>
 
 <body>
 <form th:action="@{/customer/addProductToCart/{id}(id=${product._id})}" method="post" th:object="${product}">
