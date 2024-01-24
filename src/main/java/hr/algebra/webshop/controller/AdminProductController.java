@@ -3,10 +3,7 @@ package hr.algebra.webshop.controller;
 import hr.algebra.webshop.Util;
 import hr.algebra.webshop.dto.CategoryDTO;
 import hr.algebra.webshop.dto.ProductDTO;
-import hr.algebra.webshop.service.CategoryService;
-import hr.algebra.webshop.service.PhotoService;
-import hr.algebra.webshop.service.ProductService;
-import hr.algebra.webshop.service.UserService;
+import hr.algebra.webshop.service.*;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
@@ -19,11 +16,12 @@ import java.util.List;
 @AllArgsConstructor
 @Controller
 @RequestMapping("/admin")
-public class ProductController {
+public class AdminProductController {
     public PhotoService photoService;
     public UserService userService;
     public ProductService productService;
     public CategoryService categoryService;
+    public OrderService orderService;
 
     @GetMapping("/")
     public String viewHomePage(Model model, Authentication authentication) {
@@ -77,8 +75,27 @@ public class ProductController {
     @GetMapping("/listOfUsers")
     public String viewListOfUsers(Model model, Authentication authentication) {
         model.addAttribute("users", userService.getAllUsers());
+
         Util.addRoleToNavBar(authentication,  model);
         return "listOfUsers";
+
+    }
+    @GetMapping("/listOfAllOrders")
+    public String viewListOfAllOrders(Model model, Authentication authentication){
+        model.addAttribute("orders", orderService.getAllOrders());
+        model.addAttribute("users", userService.getAllUsers());
+
+        Util.addRoleToNavBar(authentication,  model);
+        return "listOfAllOrders";
+
+    }
+    @PostMapping("/filterThroughOrderList")
+    public String filterThroughOrderList(@RequestParam(value = "email", required = false)String email, Model model, Authentication authentication){
+        model.addAttribute("orders", orderService.getAllOrdersByUserId(email));
+        model.addAttribute("users", userService.getAllUsers());
+        Util.addRoleToNavBar(authentication,  model);
+
+        return "listOfAllOrders";
 
     }
 

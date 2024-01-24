@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Virgo V</title>
+    <meta charset="ISO-8859-1">
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+          crossorigin="anonymous">
+</head>
+<body>
+<header th:insert="~{fragments/general :: header(authentication=${authentication})}"></header>
+<div class="container " style="margin-top: 5%">
+    <div class="row justify-content-between">
+    <h2 class="col-4 ml-4">Order List</h2>
+        <div class="col-4 ">
+        <form class="form-inline" th:action="@{/admin/filterThroughOrderList}" th:method="post">
+        <div class="form-group mb-2" th:object="${users}">
+            <label for="users"></label>
+            <select class="form-control" th:name="email" id="users" name="users">
+                Select user:
+                <option th:value="${users}">Select user</option>
+                <option th:each="user : ${users}"
+                        th:value="${user.getEmail()}"
+                        th:text="${user.getEmail()}"></option>
+            </select>
+        </div>
+        <div class="form-group mx-sm-3 mb-2">
+        <button class="btn btn-info" type="submit">Filter</button>
+    </div>
+    </form>
+        </div>
+    </div>
+    <div class="row">
+
+        <th:block th:each="order : ${orders}">
+            <div class="col-md-4 mb-4 mt-3">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>User information</h5>
+                        <p>User name: <span th:text="${order.cart.getUser().getFirstName()} + ' ' + ${order.getCart().getUser().getLastName()}"></span></p>
+                        <p>User email: <span th:text="${order.cart.getUser().getEmail()}"></span></p>
+                    </div>
+                    <div class="card-body">
+                        <h5>Order information</h5>
+                        <p>Order ID: <span th:text="${order.id}"></span></p>
+                        <p>Date and time: <span th:text="${#temporals.format(order.date, 'dd.MM.yyyy HH:mm:ss')}"></span></p>
+                        <p>Total Price: $<span th:text="${order.cart.totalPrice}"></span></p>
+                        <p>Delivery Method: <span th:text="${order.delivery}"></span></p>
+                        <p>Payment Method: <span th:text="${order.paymentMethod}"></span></p>
+                    </div>
+                    <div class="card-footer">
+                        <h5>Items bought information</h5>
+                        <ul class="list-group">
+                            <th:block th:each="cartItem : ${order.cart.cartItem}">
+                                <li class="list-group-item">
+                                    <span th:text="${cartItem.quantity}"></span> x
+                                    <span th:text="${cartItem.product.name}"></span>
+                                    <span class="float-right">Price: $<span th:text="${cartItem.product.price}"></span></span>
+                                </li>
+                            </th:block>
+                            <li class="text-center list-group-item">
+                                <button th:method="post" class="btn btn-warning" th:action="@{admin/updateOrder/{id}(id=${order.id})}">Update</button>
+                                <button th:method="post" class="btn btn-danger" th:action="@{admin/deleteOrder/{id}(id=${order.id})}">Delete</button>
+                                </li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </th:block>
+
+    </div>
+</div>
+<div th:replace="~{fragments/general.html :: footer}"></div>
+
+</body>
+</html>

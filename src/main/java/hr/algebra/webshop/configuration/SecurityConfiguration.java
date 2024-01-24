@@ -34,11 +34,14 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.GET, "/user/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/user/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/admin/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/page/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/admin/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/admin/listOfAllOrders").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/admin/filterThroughOrderList").hasRole("ADMIN")
+
                         .requestMatchers("/customer/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/customer/**").permitAll()
-
-                        .requestMatchers(HttpMethod.GET, "/admin/listOfUsers").authenticated())
+)
                 .formLogin((form) -> form
                         .loginPage("/user/showLogin.html")
                         .loginProcessingUrl("/login")

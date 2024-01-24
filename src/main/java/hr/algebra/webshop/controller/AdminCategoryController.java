@@ -9,12 +9,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
-
 @AllArgsConstructor
 @Controller
 @RequestMapping("/admin/category")
-public class CategoryController {
+public class AdminCategoryController {
     public CategoryService categoryService;
 
     @GetMapping("/")
