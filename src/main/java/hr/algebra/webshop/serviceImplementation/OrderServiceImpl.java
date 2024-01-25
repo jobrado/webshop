@@ -8,8 +8,7 @@ import hr.algebra.webshop.repository.OrderRepository;
 import hr.algebra.webshop.service.OrderService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -64,15 +63,17 @@ public class OrderServiceImpl implements OrderService {
                 .map(OrderMapper::mapToOrderDTO)
                 .collect(Collectors.toList());
     }
-    public List<Order> getOrdersByDate(LocalDate startDate, LocalDate endDate) {
+    public List<OrderDTO> getOrdersByDate(LocalDateTime startDate, LocalDateTime endDate) {
         List<Order> allOrders = orderRepository.findAll();
 
         if (startDate != null && endDate != null) {
             return  allOrders.stream()
-                    .filter(order -> order.getDate().isAfter(startDate.minusDays(1).atStartOfDay()) && order.getDate().isBefore(endDate.plusDays(1).atStartOfDay()))
+                    .filter(order -> order.getDate().isAfter(startDate.minusDays(1)) && order.getDate().isBefore(endDate.plusDays(1)))
+                    .map(OrderMapper::mapToOrderDTO)
                     .collect(Collectors.toList());
         } else {
-            return allOrders;
+            return allOrders.stream().map(OrderMapper::mapToOrderDTO)
+                    .collect(Collectors.toList());
         }
     }
 

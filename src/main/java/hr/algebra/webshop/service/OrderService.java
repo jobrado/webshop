@@ -1,10 +1,7 @@
 package hr.algebra.webshop.service;
 
-
 import hr.algebra.webshop.dto.OrderDTO;
-import hr.algebra.webshop.entity.Order;
-
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface OrderService {
@@ -14,5 +11,5 @@ public interface OrderService {
     OrderDTO getOrderById(String id);
     List<OrderDTO> getAllOrders();
     List<OrderDTO> getAllOrdersByUserId(String id);
-    List<Order> getOrdersByDate(LocalDate startDate, LocalDate endDate);
+    List<OrderDTO> getOrdersByDate(LocalDateTime startDate, LocalDateTime endDate);
 }

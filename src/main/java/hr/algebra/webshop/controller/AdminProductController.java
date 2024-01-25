@@ -2,6 +2,7 @@ package hr.algebra.webshop.controller;
 
 import hr.algebra.webshop.Util;
 import hr.algebra.webshop.dto.CategoryDTO;
+import hr.algebra.webshop.dto.OrderDTO;
 import hr.algebra.webshop.dto.ProductDTO;
 import hr.algebra.webshop.service.*;
 import lombok.AllArgsConstructor;
@@ -10,8 +11,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
+import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Controller
@@ -34,7 +36,7 @@ public class AdminProductController {
         List<CategoryDTO> categoryDTOS = categoryService.getAllCategories();
         model.addAttribute("product", new ProductDTO());
         model.addAttribute("categories", categoryDTOS);
-        Util.addRoleToNavBar(authentication,  model);
+        Util.addRoleToNavBar(authentication, model);
         return "new_product";
 
     }
@@ -53,7 +55,7 @@ public class AdminProductController {
         List<CategoryDTO> categoryDTOS = categoryService.getAllCategories();
         model.addAttribute("product", productService.getProductById(id));
         model.addAttribute("categories", categoryDTOS);
-        Util.addRoleToNavBar(authentication,  model);
+        Util.addRoleToNavBar(authentication, model);
         return "update_product";
     }
 
@@ -76,28 +78,48 @@ public class AdminProductController {
     public String viewListOfUsers(Model model, Authentication authentication) {
         model.addAttribute("users", userService.getAllUsers());
 
-        Util.addRoleToNavBar(authentication,  model);
+        Util.addRoleToNavBar(authentication, model);
         return "listOfUsers";
 
     }
+
     @GetMapping("/listOfAllOrders")
-    public String viewListOfAllOrders(Model model, Authentication authentication){
+    public String viewListOfAllOrders(Model model, Authentication authentication) {
         model.addAttribute("orders", orderService.getAllOrders());
         model.addAttribute("users", userService.getAllUsers());
 
-        Util.addRoleToNavBar(authentication,  model);
+        Util.addRoleToNavBar(authentication, model);
         return "listOfAllOrders";
 
     }
+
     @PostMapping("/filterThroughOrderList")
-    public String filterThroughOrderList(@RequestParam(value = "email", required = false)String email, Model model, Authentication authentication){
-        model.addAttribute("orders", orderService.getAllOrdersByUserId(email));
+    public String filterThroughOrderList(@RequestParam(value = "email", required = false) String email,
+                                         @RequestParam(value = "startDate", required = false) String startDate,
+                                         @RequestParam(value = "endDate", required = false) String endDate,
+                                         Model model, Authentication authentication) {
+        if (email.isEmpty() && !startDate.isEmpty() && !endDate.isEmpty()) {
+            model.addAttribute("orders", orderService.getOrdersByDate(LocalDate.parse(startDate).atStartOfDay(), LocalDate.parse(endDate).atStartOfDay()));
+        }
+        if (!email.isEmpty() && !startDate.isEmpty() && !endDate.isEmpty()) {
+            List<OrderDTO> orders = orderService.getAllOrders().stream()
+                    .filter(order -> (order.getCart().getUser().getEmail().equals(email))
+                            && (!order.getDate().isBefore(LocalDate.parse(startDate).atStartOfDay()))
+                            && (!order.getDate().isAfter(LocalDate.parse(endDate).atStartOfDay())))
+                    .collect(Collectors.toList());
+            model.addAttribute("orders", orders);
+        }
+        if (!email.isEmpty() && startDate.isEmpty() && endDate.isEmpty()) {
+            model.addAttribute("orders", orderService.getAllOrdersByUserId(email));
+        }
+
         model.addAttribute("users", userService.getAllUsers());
-        Util.addRoleToNavBar(authentication,  model);
+        Util.addRoleToNavBar(authentication, model);
 
         return "listOfAllOrders";
 
     }
+
 
     @GetMapping("/page/{pageNo}")
     public String findPage(@PathVariable(value = "pageNo") int pageNo,
@@ -115,7 +137,7 @@ public class AdminProductController {
         model.addAttribute("sortField", sortField);
         model.addAttribute("sortDirection", sortDirection);
         model.addAttribute("reverseSortDirection", sortDirection.equals("asc") ? "desc" : "asc");
-        Util.addRoleToNavBar(authentication,  model);
+        Util.addRoleToNavBar(authentication, model);
         return "index";
     }
 
