@@ -30,15 +30,18 @@ public class SecurityConfiguration {
 
         return http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizeConfig -> authorizeConfig
-                        .requestMatchers(HttpMethod.GET, "/").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/user/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/user/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/admin/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/page/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/admin/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/admin/listOfAllOrders").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/admin/filterThroughOrderList").hasRole("ADMIN")
-
+                        .requestMatchers(HttpMethod.GET, "/").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/user/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/user/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/favicon.ico").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/images/**").permitAll()
+                        .requestMatchers( "/api/**").permitAll()
+                        .requestMatchers("/api/paypal/createOrder").permitAll()
                         .requestMatchers("/customer/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/customer/**").permitAll()
 )

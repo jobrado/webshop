@@ -155,11 +155,7 @@ public class CustomerController {
         else{
             model.addAttribute("cartNotFound", true);
         }
-       /* Optional<CartDTO> cartDTO = cartService.getCartByUserName(authentication.getName());
-        cartDTO.ifPresentOrElse(
-                cart -> model.addAttribute("cart", cart),
-                () -> model.addAttribute("cartNotFound", true)
-        );*/
+
         Util.addRoleToNavBar(authentication,  model);
         return "customer/cart";
     }
@@ -191,10 +187,15 @@ public class CustomerController {
         orderService.createOrder(order);
         cartService.deleteCart(id);
 
-        model.addAttribute("order", order);
         Util.addRoleToNavBar(authentication,  model);
-        return "customer/order";
+        model.addAttribute("order", order);
 
+    if(paymentMethod == PaymentMethod.CASH) {
+        return "customer/order";
+    }
+    else{
+        return "customer/order_paypal";
+    }
     }
 
     @GetMapping("/getOrderHistory")

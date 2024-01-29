@@ -14,13 +14,13 @@
 <body>
 
 <div class="row">
-    <div class="col-3" style="background-color: darkslategray;">
+    <div class="col-3" style="background-color: steelblue;">
         <div class="category-list" style="margin-top: 7rem; margin-left: 2rem; margin-right: 2rem">
             <h5 class="ml-3">Categories:</h5>
             <ul class="mt-4" style="  list-style: none;">
                 <li th:each="category : ${categories}">
                     <a class="list-group-item list-group-item-action"
-                       style="background-color: darkslategrey; border:none"
+                       style="background-color: steelblue; border:none;"
                        th:href="@{/customer/allProducts/{categoryId}(categoryId=${category._id})}"
                        th:text="${category.name}">
 
