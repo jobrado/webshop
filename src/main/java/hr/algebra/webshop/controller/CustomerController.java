@@ -147,6 +147,7 @@ public class CustomerController {
     public String showCart(Model model,
                            Authentication authentication) {
         if(authentication != null){
+
             Optional<CartDTO> cartDTO = cartService.getCartByUserName(authentication.getName());
             cartDTO.ifPresentOrElse(
                     cart -> model.addAttribute("cart", cart),
@@ -164,6 +165,7 @@ public class CustomerController {
     public String chooseDeliveryAndPaymentMethod(Model model,
                                                  @PathVariable String id,
                                                  Authentication authentication) {
+
         CartDTO cartById = cartService.getCartById(id);
         model.addAttribute("cart", cartById);
         Util.addRoleToNavBar(authentication,  model);

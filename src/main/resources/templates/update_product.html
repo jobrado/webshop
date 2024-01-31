@@ -15,7 +15,7 @@
     <h1 class="text-center"> Update product </h1>
 
 
-    <form action="#" th:action="@{/admin/updateProduct/{id}(id=${product._id})}" th:object="${product}" method="POST">
+    <form action="#" th:action="@{/admin/updateProduct/{id}(id=${product._id})}" th:object="${product}" enctype="multipart/form-data" method="POST">
         <div class="form-group mt-5">
             <label for="productName" class="ml-2">Name</label>
             <input type="text" id="productName" class="form-control" th:field="*{name}" placeholder="Product name"><br>
@@ -25,11 +25,12 @@
             <input type="text" id="productDesc" class="form-control" th:field="*{description}"
                    placeholder="Product description"><br>
         </div>
-        <div class="form-group" th:object="${product.category}">
+        <div class="form-group" >
             <label for="productCategory" class="ml-2">Category</label>
-            <select class="form-control" id="productCategory">
+            <select class="form-control" th:field="*{category._id}" id="productCategory">
                 <option value="0">select category</option>
-                <option th:each="category : ${product.category}" th:value="*{_id}" th:text="*{name}"></option>
+                <option th:each="cat : ${categories}" th:value="${cat._id}"
+                        th:text="${cat.name}"></option>
             </select>
         </div>
         <div class="form-group">
@@ -43,21 +44,16 @@
                    placeholder="Product quantity"><br>
         </div>
         <div class="form-group">
-            <label for="productPhotoTitle" class="ml-2">Photos</label>
             <div class="row">
-                <div class="col-md-8">
-                    <input type="text" id="productPhotoTitle" class="form-control" th:field="*{productPhotos.title}"
-                           placeholder="Product productPhotos">
-                </div>
-                <div class="col-md-4">
-                    <input id="input-file" class="mt-2" type="file" name="file" accept="image/png, image/jpeg"/>
+                <div class="form-group">
+                    <input type="file" name="image" accept="image/*" class="form-control-file">
                 </div>
             </div>
         </div>
 
         <div class="form-group text-center mt-4">
             <button type="submit" class="btn btn-info col-2 mr-1 shadow-sm rounded">Save</button>
-            <a th:href="@{/}" class="btn btn-danger col-2 ml-1 shadow-sm rounded">Cancel</a>
+            <a th:href="@{/customer/allProducts}" class="btn btn-danger col-2 ml-1 shadow-sm rounded">Cancel</a>
         </div>
     </form>
 

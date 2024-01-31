@@ -5,17 +5,23 @@ import hr.algebra.webshop.entity.Photo;
 
 public class PhotoMapper {
     public static PhotoDTO mapToPhotoDTO (Photo photo) {
+
         return new PhotoDTO(
                 photo.getId(),
                 photo.getTitle(),
-                photo.getImage()
+                photo.getImage(),
+                photo.getOriginalFileName(),
+                photo.getContentType()
         );
+
     }
     public static Photo mapToPhoto(PhotoDTO photo) {
         return new Photo(
                 photo.getId(),
                 photo.getTitle(),
-                photo.getImage()
+                photo.getImage(),
+                photo.getOriginalFileName(),
+                photo.getContentType()
         );
     }
 }

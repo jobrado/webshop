@@ -1,5 +1,5 @@
 package hr.algebra.webshop.service;
-
+/*
 import hr.algebra.webshop.dto.OrderDTO;
 import org.json.JSONException;
 
@@ -8,3 +8,4 @@ public interface PayPalService {
      String createOrder(double orderDTO) throws JSONException;
      String capturePayment(String orderId) throws JSONException;
 }
+*/

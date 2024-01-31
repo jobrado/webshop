@@ -3,6 +3,8 @@ package hr.algebra.webshop.controller;
 import hr.algebra.webshop.Util;
 import hr.algebra.webshop.dto.CategoryDTO;
 import hr.algebra.webshop.service.CategoryService;
+import hr.algebra.webshop.service.ProductService;
+import hr.algebra.webshop.dto.ProductDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/admin/category")
 public class AdminCategoryController {
     public CategoryService categoryService;
+    public ProductService productService;
 
     @GetMapping("/")
     public String showAllCategories(Model model, Authentication authentication) {
@@ -54,6 +57,7 @@ public class AdminCategoryController {
 
     @GetMapping("/deleteCategory/{id}")
     public String deleteCategory(@ModelAttribute("category") CategoryDTO categoryDTO, @PathVariable String id) {
+        productService.getProductsByCategory_id(id).stream().map(ProductDTO::get_id).forEach(productService::deleteProduct);
         categoryService.deleteCategory(id);
         return "redirect:/admin/category/";
     }

@@ -1,5 +1,5 @@
 package hr.algebra.webshop.controller;
-
+/*
 import hr.algebra.webshop.dto.OrderDTO;
 import hr.algebra.webshop.service.PayPalService;
 import lombok.AllArgsConstructor;
@@ -40,4 +40,4 @@ public class PayPalController {
             return "Failed to capture payment.";
         }
     }
-}
+}*/

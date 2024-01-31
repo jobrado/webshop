@@ -15,8 +15,15 @@ public class Photo {
     private String id;
     private String title;
     private Binary image;
-
+    private String originalFileName;
+    private String contentType;
     public Photo(String title) {
         this.title = title;
+    }
+    public Photo(String title, Binary image, String originalFileName, String contentType) {
+        this.title= title;
+        this.image = image;
+        this.originalFileName = originalFileName;
+        this.contentType = contentType;
     }
 }

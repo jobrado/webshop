@@ -11,4 +11,8 @@ public class PhotoDTO {
     private String id;
     private String title;
     private Binary image;
+    private String originalFileName;
+    private String contentType;
+
+
 }

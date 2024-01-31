@@ -3,15 +3,21 @@ package hr.algebra.webshop.controller;
 import hr.algebra.webshop.Util;
 import hr.algebra.webshop.dto.CategoryDTO;
 import hr.algebra.webshop.dto.OrderDTO;
+import hr.algebra.webshop.dto.PhotoDTO;
 import hr.algebra.webshop.dto.ProductDTO;
 import hr.algebra.webshop.service.*;
 import lombok.AllArgsConstructor;
+import org.bson.types.Binary;
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 import java.time.LocalDate;
+import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -42,8 +48,8 @@ public class AdminProductController {
     }
 
     @PostMapping("/saveProduct")
-    public String saveProduct(@ModelAttribute("product") ProductDTO product) {
-        System.out.println();
+    public String saveProduct(@ModelAttribute("product") ProductDTO product, @RequestParam("image") MultipartFile file) throws IOException {
+        convertFileToBase(product, file);
         productService.createProduct(product);
 
         return "redirect:/admin/";
@@ -62,14 +68,27 @@ public class AdminProductController {
     @PostMapping("/updateProduct/{id}")
     public String updateProduct(@PathVariable String id,
                                 @ModelAttribute("product") ProductDTO product,
-                                @ModelAttribute("category") List<CategoryDTO> category) {
+                                @RequestParam("image") MultipartFile file) throws IOException {
+        convertFileToBase(product, file);
         productService.updateProduct(id, product);
 
         return "redirect:/admin/";
     }
 
+    private void convertFileToBase(@ModelAttribute("product") ProductDTO product, @RequestParam("image") MultipartFile file) throws IOException {
+        String base64Image = Base64.getEncoder().encodeToString(file.getBytes());
+
+        PhotoDTO photo = new PhotoDTO();
+        photo.setOriginalFileName(base64Image);
+        photo.setTitle("Your Title");
+        photo.setImage(new Binary(file.getBytes()));
+        photo.setContentType(file.getContentType());
+        product.setProductPhotos(photo);
+    }
+
     @GetMapping("/deleteProduct/{id}")
     public String deleteProduct(@PathVariable String id, @ModelAttribute("product") ProductDTO product) {
+        photoService.deletePhoto(id);
         productService.deleteProduct(id);
         return "redirect:/admin/";
     }

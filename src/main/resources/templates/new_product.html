@@ -14,7 +14,7 @@
 <div class="container p-4 mt-5 border shadow-sm rounded" style="width: 80%">
     <h1 class="text-center"> Create product </h1>
 
-    <form action="#" th:action="@{/admin/saveProduct}" th:object="${product}" method="POST">
+    <form action="#" th:action="@{/admin/saveProduct}" th:object="${product}" method="POST" enctype="multipart/form-data">
         <div class="form-group mt-5">
             <label for="productName" class="ml-2">Name</label>
             <input type="text" id="productName" class="form-control" th:field="*{name}" placeholder="Product name"><br>
@@ -43,14 +43,10 @@
                    placeholder="Product quantity"><br>
         </div>
         <div class="form-group">
-            <label for="productPhotoTitle" class="ml-2">Photos</label>
             <div class="row">
-                <div class="col-md-8">
-                    <input type="text" id="productPhotoTitle" class="form-control" th:field="*{productPhotos.title}"
-                           placeholder="Product productPhotos">
-                </div>
-                <div class="col-md-4">
-                    <input id="input-file" class="mt-2" type="file" name="file" accept="image/png, image/jpeg"/>
+
+                <div class="form-group">
+                    <input type="file" name="image" accept="image/*" class="form-control-file">
                 </div>
             </div>
         </div>

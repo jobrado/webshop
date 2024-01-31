@@ -48,7 +48,8 @@
                 <td th:text="${product.category.name}"></td>
                 <td th:text="${product.price}"></td>
                 <td th:text="${product.quantityOnStock}"></td>
-                <td th:text="${product.productPhotos}"></td>
+                <td>   <img th:src="'data:' + ${product.productPhotos.getContentType()} + ';base64,' + ${product.productPhotos.getOriginalFileName()}" alt="Image">
+                </td>
                 <td><a th:href="@{/admin/showFormForUpdateProduct/{id}(id=${product._id})}"
                        class="btn btn-info">Update</a></td>
                 <td><a th:href="@{/admin/deleteProduct/{id}(id=${product._id})}"
