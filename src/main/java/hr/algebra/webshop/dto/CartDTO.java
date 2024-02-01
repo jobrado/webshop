@@ -5,17 +5,17 @@ import hr.algebra.webshop.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
+import java.io.Serializable;
+import java.util.Set;
 
 
 @AllArgsConstructor
 @Data
 @NoArgsConstructor
-public class CartDTO {
+public class CartDTO implements Serializable {
 
     private String id;
-    private List<CartItem> cartItem;
+    private Set<CartItem> cartItem;
     private User user;
     private Double totalPrice;
 

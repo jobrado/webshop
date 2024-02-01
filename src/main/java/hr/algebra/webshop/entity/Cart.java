@@ -5,15 +5,17 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
-import java.util.List;
+import java.io.Serializable;
+import java.util.Set;
+
 @Document
 @AllArgsConstructor
 @Data
-public class Cart {
+public class Cart implements Serializable {
     @Id
     private String id;
     @DBRef
-    private List<CartItem> cartItem;
+    private Set<CartItem> cartItem;
     @DBRef
     private User user;
     private Double totalPrice;

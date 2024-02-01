@@ -18,10 +18,9 @@ public class CartServiceImpl implements CartService {
     private CartItemRepository cartItemRepository;
 
     @Override
-    public void createCart(CartDTO cartDTO) {
+    public CartDTO createCart(CartDTO cartDTO) {
         cartItemRepository.saveAll(cartDTO.getCartItem());
-        cartRepository.save(CartMapper.mapToCartItem(cartDTO));
-        System.out.println(CartMapper.mapToCartItem(cartDTO));
+       return CartMapper.mapToCartItemDTO( cartRepository.save(CartMapper.mapToCartItem(cartDTO)));
     }
 
     @Override
@@ -33,7 +32,7 @@ public class CartServiceImpl implements CartService {
         cartItemRepository.saveAll(cartDTO.getCartItem());
         cart.setCartItem(cartDTO.getCartItem());
         cartRepository.save(cart);
-        System.out.println(cart);
+
     }
 
     @Override

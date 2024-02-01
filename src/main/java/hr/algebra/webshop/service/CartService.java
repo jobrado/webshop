@@ -5,7 +5,7 @@ import hr.algebra.webshop.dto.CartDTO;
 import java.util.Optional;
 
 public interface CartService {
-    void createCart(CartDTO cartItemDTO);
+    CartDTO createCart(CartDTO cartItemDTO);
 
     void updateCart(String id, CartDTO cartItemDTO);
 
