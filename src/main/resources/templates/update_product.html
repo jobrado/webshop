@@ -18,12 +18,12 @@
     <form action="#" th:action="@{/admin/updateProduct/{id}(id=${product._id})}" th:object="${product}" enctype="multipart/form-data" method="POST">
         <div class="form-group mt-5">
             <label for="productName" class="ml-2">Name</label>
-            <input type="text" id="productName" class="form-control" th:field="*{name}" placeholder="Product name"><br>
+            <input type="text" id="productName" class="form-control" th:field="*{name}" placeholder="Product name" required><br>
         </div>
         <div class="form-group ">
             <label for="productDesc" class="ml-2">Description</label>
             <input type="text" id="productDesc" class="form-control" th:field="*{description}"
-                   placeholder="Product description"><br>
+                   placeholder="Product description" ><br>
         </div>
         <div class="form-group" >
             <label for="productCategory" class="ml-2">Category</label>
@@ -36,7 +36,7 @@
         <div class="form-group">
             <label for="productPrice" class="ml-2">Price</label>
             <input type="text" id="productPrice" class="form-control" th:field="*{price}"
-                   placeholder="Product price"><br>
+                   placeholder="Product price" required><br>
         </div>
         <div class="form-group">
             <label for="productQuantity" class="ml-2">Quantity</label>
@@ -46,7 +46,7 @@
         <div class="form-group">
             <div class="row">
                 <div class="form-group">
-                    <input type="file" name="image" accept="image/*" class="form-control-file">
+                    <input type="file" name="image" accept="image/*" class="form-control-file" required>
                 </div>
             </div>
         </div>

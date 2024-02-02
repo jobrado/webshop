@@ -10,7 +10,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
@@ -35,18 +34,10 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void deleteCategory(String id) {
+    public void deleteOrder(String id) {
         orderRepository.findById(id).orElseThrow(()
                 -> new ResourceNotFoundException("order does not exist with a given id"));
         orderRepository.deleteById(id);
-    }
-
-    @Override
-    public OrderDTO getOrderById(String id) {
-        Optional<Order> order = orderRepository.findById(id);
-
-        return order.map(OrderMapper::mapToOrderDTO).orElseThrow(()
-                -> new ResourceNotFoundException("order does not exist with a given id"));
     }
 
     @Override

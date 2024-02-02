@@ -37,8 +37,8 @@
 
             <div class="col-md-3 mb-4 mt-5" style=" width: 5rem; margin-bottom: 5rem; margin-left: 3rem;"
                  th:each="product : ${products}">
-                <div class="card">
-                  <img th:src="'data:' + ${product.productPhotos.getContentType()} + ';base64,' + ${product.productPhotos.getOriginalFileName()}" alt="Image">
+                <div class="card " style="height: 600px;">
+                  <img  th:src="'data:' + ${product.productPhotos.getContentType()} + ';base64,' + ${product.productPhotos.getOriginalFileName()}" width="200" height="300" alt="Image">
 
                     <h5 class="card-title text-center" th:text="${product.name}"></h5>
                     <ul class="list-group list-group-flush">

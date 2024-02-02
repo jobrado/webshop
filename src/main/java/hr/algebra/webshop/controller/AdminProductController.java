@@ -1,10 +1,7 @@
 package hr.algebra.webshop.controller;
 
 import hr.algebra.webshop.Util;
-import hr.algebra.webshop.dto.CategoryDTO;
-import hr.algebra.webshop.dto.OrderDTO;
-import hr.algebra.webshop.dto.PhotoDTO;
-import hr.algebra.webshop.dto.ProductDTO;
+import hr.algebra.webshop.dto.*;
 import hr.algebra.webshop.service.*;
 import lombok.AllArgsConstructor;
 import org.bson.types.Binary;
@@ -160,5 +157,27 @@ public class AdminProductController {
         return "index";
     }
 
+    @GetMapping("deleteOrder/{id}")
+    public String deleteOrder(@PathVariable String id) {
+        orderService.deleteOrder(id);
+        return "listOfAllOrders";
+
+    }
+
+    @PostMapping("/updateOrder/{id}")
+    public String updateOrder(@PathVariable String id,
+                              @ModelAttribute("order") OrderDTO order) {
+        orderService.updateOrder(id, order);
+        return "redirect:/admin/";
+    }
+
+    @GetMapping("deactivateUser/{email}")
+    public String deactivateUser(@PathVariable String email) {
+        UserDTO userByEmail = userService.getUserByEmail(email);
+        userByEmail.setTheAccActive(false);
+        userService.updateUser(userByEmail.getId(), userByEmail);
+        return "listOfAllOrders";
+
+    }
 
 }

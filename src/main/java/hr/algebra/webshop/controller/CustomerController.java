@@ -93,6 +93,11 @@ public class CustomerController {
                                     () -> existingCartInSession.getCartItem().add(cartItem)
                             );
 
+                                    existingCartInSession.setTotalPrice(existingCartInSession.getCartItem().stream()
+                                            .mapToDouble(existingCartItem ->
+                                                    existingCartItem.getQuantity() * existingCartItem.getProduct().getPrice())
+                                            .sum());
+
           //         httpSession.setAttribute("userCartItems", existingCartInSession.getCartItem());
                     httpSession.setAttribute("userCart", existingCartInSession);
                 } else {
@@ -143,14 +148,19 @@ public class CustomerController {
 
     private double calculateTotalPrice(Set<CartItem> cartItems) {
         if (!cartItems.isEmpty()) {
-            return cartItems.stream()
+            double sum = cartItems.stream()
                     .mapToDouble(cartItem -> {
                         Product product = cartItem.getProduct();
                         int quantity = cartItem.getQuantity();
                         double productPrice = product.getPrice();
+
                         return productPrice * quantity;
                     })
                     .sum();
+
+            String formattedString = String.format("%.2f", sum);
+
+            return Double.parseDouble(formattedString);
         }
         return 0;
     }

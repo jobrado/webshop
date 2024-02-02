@@ -26,7 +26,7 @@ public class User implements UserDetails {
     @Indexed(unique = true)
     private String email;
     private String password;
-
+    private boolean isTheAccActive;
     private Set<UserRole> role;
 
 
@@ -59,6 +59,6 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return isTheAccActive;
     }
 }

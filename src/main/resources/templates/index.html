@@ -21,19 +21,19 @@
             <tr>
 
                 <th scope="col" class="col-lg-6"><a style="color: darkslategrey"
-                                                    th:href="@{'/page/' + ${currentPage} + '?sortField=name&sortDirection=' + ${reverseSortDirection}}">Product
+                                                    th:href="@{'/admin/page/' + ${currentPage} + '?sortField=name&sortDirection=' + ${reverseSortDirection}}">Product
                     name</a></th>
                 <th scope="col" class="col-lg-6"><a style="color: darkslategrey"
-                                                    th:href="@{'/page/' + ${currentPage} + '?sortField=description&sortDirection=' + ${reverseSortDirection}}">Description</a>
+                                                    th:href="@{'/admin/page/' + ${currentPage} + '?sortField=description&sortDirection=' + ${reverseSortDirection}}">Description</a>
                 </th>
                 <th scope="col" class="col-lg-6"><a style="color: darkslategrey"
-                                                    th:href="@{'/page/' + ${currentPage} + '?sortField=category&sortDirection=' + ${reverseSortDirection}}">Category</a>
+                                                    th:href="@{'/admin/page/' + ${currentPage} + '?sortField=category&sortDirection=' + ${reverseSortDirection}}">Category</a>
                 </th>
                 <th scope="col" class="col-lg-4"><a style="color: darkslategrey"
-                                                    th:href="@{'/page/' + ${currentPage} + '?sortField=price&sortDirection=' + ${reverseSortDirection}}">Price</a>
+                                                    th:href="@{'/admin/page/' + ${currentPage} + '?sortField=price&sortDirection=' + ${reverseSortDirection}}">Price</a>
                 </th>
                 <th scope="col" class="col-lg-4"><a style="color: darkslategrey"
-                                                    th:href="@{'/page/' + ${currentPage} + '?sortField=quantity&sortDirection=' + ${reverseSortDirection}}">Quantity</a>
+                                                    th:href="@{'/admin/page/' + ${currentPage} + '?sortField=quantity&sortDirection=' + ${reverseSortDirection}}">Quantity</a>
                 </th>
                 <th scope="col" style="color: darkslategrey">Photo</th>
                 <th scope="col" style="color: darkslategrey" class="col-lg-3">Update</th>
@@ -48,7 +48,7 @@
                 <td th:text="${product.category.name}"></td>
                 <td th:text="${product.price}"></td>
                 <td th:text="${product.quantityOnStock}"></td>
-                <td>   <img th:src="'data:' + ${product.productPhotos.getContentType()} + ';base64,' + ${product.productPhotos.getOriginalFileName()}" alt="Image">
+                <td>   <img th:src="'data:' + ${product.productPhotos.getContentType()} + ';base64,' + ${product.productPhotos.getOriginalFileName()} "   width="150" height="200" alt="Image">
                 </td>
                 <td><a th:href="@{/admin/showFormForUpdateProduct/{id}(id=${product._id})}"
                        class="btn btn-info">Update</a></td>
