@@ -1,11 +1,7 @@
 package hr.algebra.webshop.controller;
-/*
-import hr.algebra.webshop.dto.OrderDTO;
 import hr.algebra.webshop.service.PayPalService;
 import lombok.AllArgsConstructor;
 import org.json.JSONException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,10 +11,9 @@ public class PayPalController {
 
     private final PayPalService payPalService;
     @PostMapping("/createOrder")
-    public Object createOrder(@RequestParam OrderDTO orderDTO) {
-        Double totalPrice = orderDTO.getCart().getTotalPrice();
-        if (totalPrice == null || totalPrice <= 0) {
-            return ResponseEntity.badRequest().body("Invalid total price");
+    public Object createOrder(@RequestParam double totalPrice) {
+        if (totalPrice <= 0) {
+            return "/customer/cart";
         }
 
         try {
@@ -31,13 +26,14 @@ public class PayPalController {
 
 
 
-    @PostMapping("/capturePayment")
-    public Object capturePayment(String orderId) {
+    @PostMapping("/capturePayment/{orderId}/capture")
+    public String capturePayment(@PathVariable String  orderId) {
         try {
-            return payPalService.capturePayment(orderId);
+            payPalService.capturePayment(orderId) ;
+            return "localhost:8080/customer/allProducts.html";
         } catch (JSONException e) {
 
             return "Failed to capture payment.";
         }
     }
-}*/
+}

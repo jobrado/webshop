@@ -98,7 +98,6 @@ public class CustomerController {
                                                     existingCartItem.getQuantity() * existingCartItem.getProduct().getPrice())
                                             .sum());
 
-          //         httpSession.setAttribute("userCartItems", existingCartInSession.getCartItem());
                     httpSession.setAttribute("userCart", existingCartInSession);
                 } else {
                     Set<CartItem> cartItems = new HashSet<>();

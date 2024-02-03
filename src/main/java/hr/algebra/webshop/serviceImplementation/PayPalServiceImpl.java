@@ -1,8 +1,7 @@
 package hr.algebra.webshop.serviceImplementation;
-/*
-import hr.algebra.webshop.dto.OrderDTO;
-import hr.algebra.webshop.entity.Order;
+
 import hr.algebra.webshop.service.PayPalService;
+import lombok.NoArgsConstructor;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,8 +13,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.Base64;
 
-import static javax.swing.text.html.HTML.Tag.BASE;
-
+@NoArgsConstructor
 @Service
 public class PayPalServiceImpl implements PayPalService {
 
@@ -25,11 +23,18 @@ public class PayPalServiceImpl implements PayPalService {
     @Value("${paypal.client-secret}")
     private String clientSecret;
 
-    private final String baseApiUrl = "https://api-m.sandbox.paypal.com/v2/checkout/orders";
+    private final String BASE = "https://api-m.sandbox.paypal.com/";
+
+    private String getAuth(String clientId, String clientSecret) {
+        String auth = clientId + ":" + clientSecret;
+        return Base64.getEncoder().encodeToString(auth.getBytes());
+    }
 
     public String generateAccessToken() throws JSONException {
-
-        String auth = getAuth(clientId, clientSecret);
+        String auth = this.getAuth(
+                clientId,
+                clientSecret
+        );
         RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders();
@@ -37,28 +42,22 @@ public class PayPalServiceImpl implements PayPalService {
         headers.set("Authorization", "Basic " + auth);
 
         MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<>();
+        HttpEntity<?> request = new HttpEntity<>(requestBody, headers);
         requestBody.add("grant_type", "client_credentials");
 
-        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(requestBody, headers);
-
         ResponseEntity<String> response = restTemplate.postForEntity(
-                BASE + "/v1/oauth2/token",
+                BASE +"/v1/oauth2/token",
                 request,
                 String.class
         );
 
         if (response.getStatusCode() == HttpStatus.OK) {
             return new JSONObject(response.getBody()).getString("access_token");
-
-
         } else {
             return "Unavailable to get ACCESS TOKEN, STATUS CODE " + response.getStatusCode();
         }
     }
 
-    private String getAuth(String clientId, String clientSecret) {
-        return Base64.getEncoder().encodeToString((clientId + ":" + clientSecret).getBytes());
-    }
 
     @Override
     public String createOrder(double totalPrice) throws JSONException {
@@ -88,7 +87,7 @@ public class PayPalServiceImpl implements PayPalService {
     }
 
     @Override
-    public String capturePayment(String orderId) throws JSONException {
+    public void capturePayment(String orderId) throws JSONException {
         String accessToken = generateAccessToken();
         HttpHeaders headers = new HttpHeaders();
         RestTemplate restTemplate = new RestTemplate();
@@ -99,18 +98,17 @@ public class PayPalServiceImpl implements PayPalService {
         HttpEntity<String> entity = new HttpEntity<>(null, headers);
 
         ResponseEntity<String> response = restTemplate.exchange(
-                baseApiUrl + "/" + orderId + "/capture",
+                BASE + "/v2/checkout/orders/" + orderId + "/capture",
                 HttpMethod.POST,
                 entity,
                 String.class
         );
 
         if (response.getStatusCode() == HttpStatus.CREATED) {
-            return response.getBody();
+            response.getBody();
         } else {
             throw new RuntimeException("Failed to capture payment, Status Code: " + response.getStatusCode());
         }
     }
 }
 
-*/

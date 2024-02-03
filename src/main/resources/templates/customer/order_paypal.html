@@ -64,17 +64,20 @@
         </div>
     </div>
     <div id="paypal-button-container"></div>
-    <script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/ var totalPrice = /*[[${order.cart.totalPrice}]]*/ 1;/*]]>*/
         paypal
             .Buttons({
                 style: {
                     shape: "pill",
                     layout: "vertical",
                 },
+
                 createOrder: (data, actions) => {
                     console.error("Error creating order creating");
 
-                    return fetch("http://localhost:8080/api/paypal/createOrder", {
+                    return fetch(`http://localhost:8080/api/paypal/createOrder?totalPrice=${totalPrice}`, {
+
                         method: "post",
                     })
                         .then(response => response.json())
@@ -85,12 +88,11 @@
                     });
                 },
                 onApprove: (data, actions) => {
-                    return fetch(`http://localhost:8080/api/paypal/capturePayment?orderId=${data.order_id}`, {
+                    return fetch(`http://localhost:8080/api/paypal/capturePayment/${data.orderID}/capture`, {
                         method: "post",
                     })
                         .then(response => response.json())
                         .then(orderData => {
-                            // Successful capture! For dev/demo purposes:
                             console.log("Capture result",orderData,JSON.stringify(orderData, null, 2));
                             const transaction = orderData.purchase_units[0].payments.captures[0];
                             alert("Transaction " + transaction.status + ": " + transaction.id + "\n\nSee console for all available details");
